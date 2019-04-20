@@ -1,0 +1,7 @@
+#ifndef __ANSI_PROTO__
+#define __ANSI_PROTO__
+/* ../ansi.c */
+extern int skip_ansi(const char *str);
+extern char *strip_ansi(const char *str, char *buffer);
+
+#endif // __ANSI_PROTO__

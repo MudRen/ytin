@@ -1,0 +1,10 @@
+#ifndef __FUNCTION_PROTO__
+#define __FUNCTION_PROTO__
+/* ../function.c */
+extern char last_result[];
+extern void function_command(const char *arg, struct session* ses);
+extern void unfunction_command(const char *arg, struct session* ses);
+extern void result_command(const char *arg, struct session* ses);
+extern void substitute_functions(const char *arg, char *result, struct session* ses);
+
+#endif // __FUNCTION_PROTO__

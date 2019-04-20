@@ -1,0 +1,27 @@
+#ifndef __VARIABLES_PROTO__
+#define __VARIABLES_PROTO__
+/* ../variables.c */
+extern void assign_var(const char* left, const char* right, struct session* ses);
+extern void var_command(const char *arg, struct session* ses);
+extern void unvar_command(const char *arg, struct session* ses);
+void substitute_myvariables(const char *arg, char *result, struct session* ses);
+extern void substitute_myvars(const char *arg, char *result, struct session* ses);
+extern void getlistlength_command(const char *arg, struct session* ses);
+extern void getitemnr_command(const char *arg, struct session* ses);
+extern void forall_command(const char *arg, struct session* ses);
+extern void delimiter_command(const char *arg, struct session* ses);
+extern void tolower_command(const char *arg, struct session* ses);
+extern void toLower_command(const char *arg, struct session* ses);
+extern void toupper_command(const char *arg, struct session* ses);
+extern void toUpper_command(const char *arg, struct session* ses);
+#ifdef CHINESE
+	extern void ctoi_command(const char *arg, struct session* ses);
+	extern void GBfilter_command(const char* arg, struct session* ses);
+#endif
+extern void str_command(const char* command, const char* arg, struct session* ses);
+extern void substr_command(const char* arg, struct session* ses);
+extern void chr_command(const char* arg, struct session* ses);
+extern void ord_command(const char* arg, struct session* ses);
+extern void stripansi_command(const char* arg, struct session* ses);
+
+#endif // __VARIABLES_PROTO__

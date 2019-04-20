@@ -1,0 +1,6 @@
+#ifndef __GLOB_PROTO__
+#define __GLOB_PROTO__
+/* ../glob.c */
+extern int match(const char *regex, const char *string);
+
+#endif // __GLOB_PROTO__

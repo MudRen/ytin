@@ -1,0 +1,13 @@
+#ifndef __RLTAB_PROTO__
+#define __RLTAB_PROTO__
+/* ../rltab.c */
+extern char *rltab_generate(const char *s, int state);
+extern void rltab_delete(const char *word);
+extern void rltab_list(void);
+extern void rltab_purge(void);
+extern void rltab_read(char *arg, struct session* ses);	/*	Modified to allow variables in tab file names - Vasantha Crabb	*/
+extern void do_tabadd(const char *arg);
+extern void do_tabdel(const char *arg);
+extern void do_tabsave(char *arg, struct session* ses);	/*	Modified to allow variables in tab file names - Vasantha Crabb	*/
+
+#endif // __RLTAB_PROTO__

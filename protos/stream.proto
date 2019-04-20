@@ -1,0 +1,30 @@
+#ifndef __STREAM_PROTO__
+#define __STREAM_PROTO__
+void add_file(FILE* fp);
+int valid_file(unsigned long fp);
+void remove_file(unsigned long fp);
+extern void clean_all_file();
+
+extern void fopen_command(const char* arg, struct session* ses);
+extern void fclose_command(const char* arg, struct session* ses);
+
+extern void feof_command(const char* arg, struct session* ses);
+extern void fseek_command(const char* arg, struct session* ses);
+/*
+extern void fgetc_command(const char* arg, struct session* ses);
+*/
+extern void fread_command(const char* arg, struct session* ses);
+extern void fgets_command(const char* arg, struct session* ses);
+/*
+extern void fscanf_command(const char* arg, struct session* ses);
+
+extern void fputc_command(const char* arg, struct session* ses);
+extern void fprintf_command(const char* arg, struct session* ses);
+*/
+extern void fwrite_command(const char* arg, struct session* ses);
+extern void fputs_command(const char* arg, struct session* ses);
+
+extern void rename_command(const char* arg, struct session* ses);
+extern void remove_command(const char* arg, struct session* ses);
+
+#endif // __STREAM_PROTO__

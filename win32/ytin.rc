@@ -1,0 +1,517 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resrc1.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "resource.h"
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resrc1.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""resource.h""\r\n"
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\ytin.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP  MOVEABLE PURE   "res\\Toolbar.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR DISCARDABLE  16, 15
+BEGIN
+    BUTTON      ID_EDIT_COPY
+    SEPARATOR
+    BUTTON      ID_APP_ABOUT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Boss\tEsc",                  ID_FILE_BOSS2, CHECKED
+        MENUITEM "Toggle raw",                  ID_FILE_TOGGLERAW
+        MENUITEM SEPARATOR
+        MENUITEM "&New window\tCtrl-N",         ID_APP_NEW_WINDOW
+        MENUITEM "&Connect to ...",             ID_FILE_CONNECT
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+        MENUITEM SEPARATOR
+        MENUITEM "&Font",                       ID_VIEW_FONT
+        MENUITEM "&Background Color",           ID_VIEW_BG_COLOR
+        MENUITEM "&Ansi colors",                ID_VIEW_ANSICOLOR
+        MENUITEM SEPARATOR
+        MENUITEM "&Options",                    ID_VIEW_OPTIONS
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&Online Cmds Help",           ID_HELP_ONLINE
+        MENUITEM SEPARATOR
+        MENUITEM "Check New &Version",          ID_HELP_VERSIONUPDATE
+        MENUITEM SEPARATOR
+        MENUITEM "yTin &Homepage",              ID_HELP_HOMEPAGE
+        MENUITEM "&About ytin...",              ID_APP_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+BEGIN
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_APP_NEW_WINDOW,      VIRTKEY, CONTROL, NOINVERT
+    VK_ESCAPE,      ID_FILE_BOSS,           VIRTKEY, NOINVERT
+    VK_NEXT,        ID_VIEW_PAGEDOWN,       VIRTKEY, NOINVERT
+    VK_PRIOR,       ID_VIEW_PAGEUP,         VIRTKEY, NOINVERT
+    VK_TAB,         ID_TAB_COMPLETE,        VIRTKEY, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 81
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About ytin"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "yet another Tintin++, v1.83",IDC_VERSION,43,14,131,8,
+                    SS_NOPREFIX
+    LTEXT           "Copyright (C) Chitchat 1999-2006\re-mail: ytin@users.sourceforge.net",
+                    IDC_STATIC,43,50,185,18
+    DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
+    LTEXT           "http://ytin.sourceforge.net\rhttp://ytin.virtualave.net",
+                    IDC_STATIC,43,28,174,17
+END
+
+IDD_INPUTBAR DIALOG DISCARDABLE  0, 0, 97, 14
+STYLE WS_CHILD
+FONT 10, "System"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,0,0,50,14,NOT WS_VISIBLE | NOT WS_TABSTOP
+END
+
+IDD_VIEW_OPTIONS DIALOG DISCARDABLE  0, 0, 231, 188
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Options (restart yTin to take effect)"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_BUFF_SIZE,52,21,31,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_MAX_WIDTH,127,21,31,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EXTRA_X,55,52,17,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EXTRA_Y,121,52,18,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_FONT_WEIGHT,61,73,29,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "&OK",IDOK,174,7,50,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,174,24,50,14
+    LTEXT           "&Buffersize",IDC_STATIC,18,23,32,8
+    LTEXT           "&Max Width",IDC_STATIC,89,24,35,8
+    LTEXT           "&H spacing:",IDC_STATIC,17,53,35,8
+    LTEXT           "&V spacing:",IDC_STATIC,83,55,35,8
+    LTEXT           "Bo&ld weight:",IDC_STATIC,18,77,40,8
+    CONTROL         "&Ansi color",IDC_ENABLE_ANSI,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,17,141,47,10
+    EDITTEXT        IDC_TABSIZE,100,138,18,14,ES_AUTOHSCROLL
+    LTEXT           "&Tabsize:",IDC_STATIC,66,141,28,8
+    EDITTEXT        IDC_WINTITLE_BOSS,72,100,145,14,ES_AUTOHSCROLL
+    LTEXT           "&Windows' titles:\n(hide for BOSS)",IDC_STATIC,17,99,53,
+                    18
+    LTEXT           "&Paste: \\r\\n ==>",IDC_STATIC,124,142,49,8
+    EDITTEXT        IDC_CR_LF,175,138,41,14,ES_AUTOHSCROLL
+    CONTROL         "Bold",IDC_BOLD_AS_HIGH,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,157,62,30,10
+    CONTROL         "High Color",IDC_BOLD_AS_HIGH2,"Button",
+                    BS_AUTORADIOBUTTON,157,75,49,10
+    GROUPBOX        "Treat ^[[1m as:",IDC_STATIC,148,47,68,45
+    LTEXT           "Pathname of Perl*.dll:",IDC_STATIC,19,166,73,8
+    EDITTEXT        IDC_PERLDLL,96,162,121,14,ES_AUTOHSCROLL
+    CONTROL         "Keep last input line",IDC_KEEPLASTLINE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,17,123,75,10
+END
+
+IDD_CONNECT DIALOG DISCARDABLE  0, 0, 190, 86
+STYLE DS_SYSMODAL | DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Connect ... (newbie only)"
+FONT 10, "System"
+BEGIN
+    DEFPUSHBUTTON   "&OK",IDOK,37,65,50,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,96,65,50,14
+    LTEXT           "Session name:",IDC_STATIC,15,12,86,8
+    LTEXT           "IP and port (e.g., 169.207.182.235 6969):",IDC_STATIC,
+                    15,26,168,8
+    EDITTEXT        IDC_EDIT_SESSION,108,9,52,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_IP,15,41,146,14,ES_AUTOHSCROLL
+END
+
+IDD_PASSWD DIALOG DISCARDABLE  0, 0, 186, 74
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Passwd:"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "&OK",IDOK,22,43,50,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,101,42,50,14
+    EDITTEXT        IDC_PASSWD,20,16,148,14,ES_PASSWORD | ES_AUTOHSCROLL
+END
+
+IDD_ANSICOLOR DIALOG DISCARDABLE  0, 0, 338, 109
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ansi Colors"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "&OK",IDOK,61,82,50,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,135,82,50,14
+    CONTROL         "",IDC_COLOR0,"Static",SS_ETCHEDFRAME | SS_NOTIFY | 
+                    SS_SUNKEN,9,26,17,15
+    LTEXT           "Black",IDC_STATIC,9,47,19,8
+    LTEXT           "Red",IDC_STATIC,37,47,14,8
+    LTEXT           "Green",IDC_STATIC,59,47,21,8
+    LTEXT           "Yellow",IDC_STATIC,83,47,23,8
+    LTEXT           "Blue",IDC_STATIC,113,47,16,8
+    LTEXT           "Magenta",IDC_STATIC,132,47,29,8
+    LTEXT           "Cyan",IDC_STATIC,165,47,18,8
+    LTEXT           "White",IDC_STATIC,190,47,20,8
+    CONTROL         "",IDC_COLOR1,"Static",SS_ETCHEDFRAME | SS_NOTIFY | 
+                    SS_SUNKEN,35,26,17,15
+    CONTROL         "",IDC_COLOR2,"Static",SS_ETCHEDFRAME | SS_NOTIFY | 
+                    SS_SUNKEN,61,26,17,15
+    CONTROL         "",IDC_COLOR3,"Static",SS_ETCHEDFRAME | SS_NOTIFY | 
+                    SS_SUNKEN,87,26,17,15
+    CONTROL         "",IDC_COLOR4,"Static",SS_ETCHEDFRAME | SS_NOTIFY | 
+                    SS_SUNKEN,113,26,17,15
+    CONTROL         "",IDC_COLOR5,"Static",SS_ETCHEDFRAME | SS_NOTIFY | 
+                    SS_SUNKEN,139,26,17,15
+    CONTROL         "",IDC_COLOR6,"Static",SS_ETCHEDFRAME | SS_NOTIFY | 
+                    SS_SUNKEN,165,26,17,15
+    CONTROL         "",IDC_COLOR7,"Static",SS_ETCHEDFRAME | SS_NOTIFY | 
+                    SS_SUNKEN,191,26,17,15
+    CONTROL         "",IDC_COLOR8,"Static",SS_ETCHEDFRAME | SS_NOTIFY | 
+                    SS_SUNKEN,9,61,17,15
+    CONTROL         "",IDC_COLOR9,"Static",SS_ETCHEDFRAME | SS_NOTIFY | 
+                    SS_SUNKEN,35,61,17,15
+    CONTROL         "",IDC_COLOR10,"Static",SS_ETCHEDFRAME | SS_NOTIFY | 
+                    SS_SUNKEN,61,61,17,15
+    CONTROL         "",IDC_COLOR11,"Static",SS_ETCHEDFRAME | SS_NOTIFY | 
+                    SS_SUNKEN,87,61,17,15
+    CONTROL         "",IDC_COLOR12,"Static",SS_ETCHEDFRAME | SS_NOTIFY | 
+                    SS_SUNKEN,113,61,17,15
+    CONTROL         "",IDC_COLOR13,"Static",SS_ETCHEDFRAME | SS_NOTIFY | 
+                    SS_SUNKEN,139,61,17,15
+    CONTROL         "",IDC_COLOR14,"Static",SS_ETCHEDFRAME | SS_NOTIFY | 
+                    SS_SUNKEN,165,61,17,15
+    CONTROL         "",IDC_COLOR15,"Static",SS_ETCHEDFRAME | SS_NOTIFY | 
+                    SS_SUNKEN,191,61,17,15
+    CONTROL         "Normal",IDC_CHECK0,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,218,37,39,10
+    CONTROL         "Bright",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,218,62,35,10
+    EDITTEXT        IDC_EDIT0,257,34,28,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT1,258,60,28,14,ES_AUTOHSCROLL
+    GROUPBOX        "Proportional",IDC_STATIC,213,14,118,81
+    PUSHBUTTON      "&Update",IDC_TEST,231,78,50,14
+    EDITTEXT        IDC_EDIT2,296,34,25,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT3,296,60,25,14,ES_AUTOHSCROLL
+    LTEXT           "+",IDC_STATIC,268,23,8,8
+    LTEXT           "-",IDC_STATIC,305,22,8,8
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,8,0,3
+ PRODUCTVERSION 1,8,0,3
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "ytin MFC Application\0"
+            VALUE "FileVersion", "1, 8, 0, 3\0"
+            VALUE "InternalName", "ytin\0"
+            VALUE "LegalCopyright", "Copyright (C) Chitchat 1999-2001\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "ytin.EXE\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "ytin Application\0"
+            VALUE "ProductVersion", "1, 8, 0, 3\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 74
+    END
+
+    IDD_VIEW_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 224
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 181
+    END
+
+    IDD_CONNECT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 183
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 79
+    END
+
+    IDD_PASSWD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 67
+    END
+
+    IDD_ANSICOLOR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 331
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 102
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDP_SOCKETS_INIT_FAILED "Windows sockets initialization failed."
+    ID_PROMPT               "Use setprompt command to change the prompt...                                                                "
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    IDR_MAINFRAME           "ytin"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "ytin"
+    AFX_IDS_IDLEMESSAGE     "Ready"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
+    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_EDIT_CLEAR           "Erase the selection\nErase"
+    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
+    ID_EDIT_FIND            "Find the specified text\nFind"
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
+    ID_EDIT_REPEAT          "Repeat the last action\nRepeat"
+    ID_EDIT_REPLACE         "Replace specific text with different text\nReplace"
+    ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All"
+    ID_EDIT_UNDO            "Undo the last action\nUndo"
+    ID_EDIT_REDO            "Redo the previously undone action\nRedo"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_FONT            "change the font of yTin"
+    ID_FILE_BOSS            "Boss key, hide all yTin windows\nboss"
+    ID_VIEW_OPTIONS         "Change ytin's misc options"
+    IDD_FILE_NEW_WINDOW     "Open a new yTin window, using same command line"
+    ID_VIEW_BG_COLOR        "Change the background color of yTin"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_CONNECT         "Make a new connection ..."
+    ID_VIEW_ANSICOLOR       "configure 16 ansi colors"
+    ID_FILE_TOGGLERAW       "Toggle raw mode (interactive mode)"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

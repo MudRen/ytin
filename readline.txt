@@ -1,0 +1,14 @@
+u need find a copy of readline.tar.gz (e.g., ftp://ftp.gnu.org/gnu/readline/),
+and untar it, then cd the readline source directory, ./configure, then make.
+Warnings are OK to neglect, as far as you can get "libreadline.a" file.
+
+You may want to save this "libreadline.a" file for future use, e.g.:
+mkdir $HOME/bin
+mv libreadline.a $HOME/bin
+
+Then go back to ytin's source directory, do this:
+./configure --libdir $HOME/bin
+make
+
+You may want to move the final "tt++" file to $HOME/bin and delete the readline
+and yTin source files to save disk space.

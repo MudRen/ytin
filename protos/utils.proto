@@ -1,0 +1,19 @@
+#ifndef __UTILS_PROTO__
+#define __UTILS_PROTO__
+/* ../utils.c */
+extern int is_abbrev(const char *s1, const char *s2);
+extern char *mystrdup(const char *str);
+extern void syserr(const char *msg);
+extern unsigned long millisec_started();
+
+/*
+extern void* dbgMalloc(size_t size);
+extern void dbgFree(void* mem);
+*/
+
+#if !defined(HAVE_STRCASECMP)
+int strcasecmp(const char *string1, const char *string2);
+int strncasecmp(const char *string1, const char *string2, size_t count);
+#endif
+
+#endif // __UTILS_PROTO__

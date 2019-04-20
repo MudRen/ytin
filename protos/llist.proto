@@ -1,0 +1,21 @@
+#ifndef __LLIST_PROTO__
+#define __LLIST_PROTO__
+/* ../llist.c */
+extern struct listnode *init_list(void);
+extern void kill_list(struct listnode *nptr);
+extern void kill_all(struct session* &ses, int mode);
+extern struct listnode *copy_list(struct listnode *sourcelist, int mode);
+extern void insertnode_list(struct listnode *listhead, const char *ltext, const char *rtext, const char *prtext, int mode);
+extern void deletenode_list(struct listnode *listhead, struct listnode *nptr);
+extern struct listnode *searchnode_list(struct listnode *listhead, const char *cptr);
+extern struct listnode *searchnode_list_begin(struct listnode *listhead, const char *cptr, int mode);
+extern void shownode_list(struct listnode *nptr);
+extern void shownode_list_action(struct listnode *nptr);
+extern void show_list(struct listnode *listhead);
+extern void show_list_action(struct listnode *listhead);
+extern struct listnode *search_node_with_wild(struct listnode *listhead, const char *cptr);
+extern int check_one_node(const char *text, const char *action);
+extern void addnode_list(struct listnode *listhead, const char *ltext, const char *rtext, const char *prtext);
+extern int count_list(struct listnode *listhead);
+
+#endif // __LLIST_PROTO__

@@ -1,0 +1,10 @@
+#ifndef __HIGHLIGHT_PROTO__
+#define __HIGHLIGHT_PROTO__
+/* ../highlight.c */
+extern void parse_high(const char *arg, struct session* ses);
+extern int is_high_arg(const char *s);
+extern void unhighlight_command(const char *arg, struct session* ses);
+extern void do_one_high(char *line, struct session* ses);
+extern void add_codes(const char *line, char *result, const char *htype, int flag);
+
+#endif // __HIGHLIGHT_PROTO__

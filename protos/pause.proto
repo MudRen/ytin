@@ -1,0 +1,7 @@
+#ifndef __PAUSE_PROTO__
+#define __PAUSE_PROTO__
+extern void pause_command(const char *arg0, struct session* ses);
+extern void purge_command(const char *arg0, struct session* ses);
+extern void slow_command(const char *arg0, struct session* ses);
+
+#endif // __PAUSE_PROTO__

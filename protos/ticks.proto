@@ -1,0 +1,12 @@
+#ifndef __TICKS_PROTO__
+#define __TICKS_PROTO__
+/* ../ticks.c */
+extern int time0;
+extern int tick_size;
+extern void tick_command(struct session* ses);
+extern void tickoff_command(struct session* ses);
+extern void tickon_command(struct session* ses);
+extern void tickset_command(struct session* ses);
+extern void ticksize_command(const char *arg, struct session* ses);
+
+#endif // __TICKS_PROTO__

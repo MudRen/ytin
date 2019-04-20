@@ -1,0 +1,8 @@
+#ifndef __ALIAS_PROTO__
+#define __ALIAS_PROTO__
+/* ../alias.c */
+extern void alias_command(const char *arg, struct session* ses);
+extern void unalias_command(const char *arg, struct session* ses);
+extern void al2variable_command(const char *arg, struct session* ses);
+extern void var2alias_command(const char *arg, struct session* ses);
+#endif // __ALIAS_PROTO__

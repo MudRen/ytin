@@ -1,0 +1,8 @@
+#ifndef __UUENCODE_PROTO__
+#define __UUENCODE_PROTO__
+extern char *encrypt(char *bin);
+extern char *decrypt(char *str);
+int uudecode (char *bin, int bsize, char *str, int ssize);
+int uuencode (char *bin, int bsize, char *str, int ssize);
+
+#endif // __UUENCODE_PROTO__

@@ -1,0 +1,6 @@
+#ifndef __SCRSIZE_PROTO__
+#define __SCRSIZE_PROTO__
+/* ../scrsize.c */
+extern void scrsize(unsigned int *p_height, unsigned int *p_width);
+
+#endif // __SCRSIZE_PROTO__

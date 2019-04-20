@@ -1,0 +1,11 @@
+#ifndef __MACRO_PROTO__
+#define __MACRO_PROTO__
+extern int keycapture;
+#ifndef _WINDOWS
+extern void macro_init(void);
+#endif
+extern void macro_command(const char *arg, struct session* ses);
+extern void unmacro_command(const char *arg, struct session* ses);
+extern int check_macros(struct keytype* key, struct session* ses);
+int check_one_macro(struct keytype* key, const char* left, struct session* ses);
+#endif // __MACRO_PROTO__

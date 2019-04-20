@@ -1,0 +1,6 @@
+#ifndef __TEXT_PROTO__
+#define __TEXT_PROTO__
+/* ../text.c */
+extern void read_file(const char *arg, struct session* ses);
+
+#endif // __TEXT_PROTO__

@@ -1,0 +1,1518 @@
+
+有以下命令的帮助：
+
+action              alias               al2variable         all
+antisubstitute      bell                boss                cd
+char                chr                 clearprompt         cr
+decrypt             delimiter           echo                encrypt
+end                 fclose              feof                fgets
+fopen               forall              fputs               fread
+fseek               function            fwrite              gag
+GBfilter            getitemnr           getlistlength       help
+highlight           history             if                  ifexist
+ifmatch             ignore              info                killall
+log                 loop                macro               map
+mark                math                message             nop
+ord                 path                pathdir             pause
+ping2               presub              purge               purist
+raw                 read                redraw              remove
+rename              result              retab               return
+revstring           savepath            session             setprompt
+showme              sleep/sleep2        slow                snoop
+speedwalk           split               stripansi           strlen
+strncmp             strstr              substitute          strrchr
+substr              suspend             system              syscat
+sysecho             tabadd              tabdelete           tablist
+tabsave             telnet              textin              tick
+tickoff             tickset             ticksize            tolower/toLower
+toggle              togglesubs          toupper/toUpper     unaction
+unalias             unantisubstitute    unfunction          ungag
+unhighlight         unmacro             unpath              unpurist
+unsplit             unsubstitute        unvariable          variable
+var2alias           verbatim            version       while      wildcard
+wizlist             write               writesession        zap
+
+
+~ALIAS
+
+格式： #alias {别称名}  {别称所取代的命令}
+说明： #alias 可简写为 #ali, #al。
+      {别称名}  中的括号 { } 可以省略。
+      {别称所取代的命令} 中的括号在只包含一个命令时可省略，否则不可。
+      各命令用分号 ; 隔开。
+      注：以下说明中情况类似，没有特殊情况不再对{ }做解释。
+用处：将一个或数个命令缩短为一个alias。
+      命令中可以有变量：%0 - %9。%0取代的是alias后跟随的所有部分，
+      %1为第一个词，以此类推。当没有变量时，default变量设为%0。
+举例：
+      #alias {cc} {chat* %0}                  ( = #al cc chat*  )
+      当键入：cc* hi waiter xine    ( waiter xine 是一个人)
+      显示为：
+      【闲聊】核桃双手抱拳，对杏话梅作了个揖道：这位姑娘请了！
+
+      #alias da1 {cc kiss %1;cc pure %2;cc cat %3}
+      当键入：da1 xine miaom panj
+      显示为：
+      【闲聊】核桃轻轻地亲了杏话梅一下，好深情呦．．．
+      【闲聊】核桃用大大的眼睛，天真地望着慧缈．．．．(@_@)。
+      【闲聊】核桃像只小猫般地依偎在忘言的怀里撒娇。
+
+      #al walk1 {#4 south;climb;#6 east;#2 say Oh, I am so tired}
+      这是个去某个特定地方的alias，最后歇歇脚发两句牢骚：Oh, I am so             tired。#n 表示同一动作重复 n 次，n 为正整数。
+
+其它：
+ 1. #alias
+     将列出所定义的所有aliases。
+ 2. #alias *ch*
+     将列出所有含有 ch 为名字的aliases。
+     #alias b*
+     将列出所有以 b 开头的aliases。
+ 3. 相关命令：#unalias ( 取消别称 )
+
+~AL2VARIABLE
+
+格式:     #al2var {variable_to_assigne} {alias_to_convert}
+
+例子:     #alias test_alias {tell chitchat hi;tell chitchat question}
+          #al2var test_var test_alias
+这样变量 test_var 就是: {tell chitchat hi;tell chitchat question}
+好处是可以把 alias 变成变量，作相应处理，然后用 var2alias 转换回新的 alias.
+
+See also: var2alias, variable, alias
+
+
+~ACTION
+
+格式：#action {触发文字} {反应命令} {优先权}
+说明：#action 可简写为：#act， #ac。
+            触发文字 中，可以用变量%0-9来代替一些字符，然后用在反应命令中。
+            优先权设为十等：0，1，......，9。其中0是最重要的，9是最不重要的。
+                    假如没设定优先权，default值是5。
+            假如触发文字前加一 ^ ，只有以此触发文字为首的行才会触发此反应
+                    命令。
+用处：当接受到某个特定文字或格式时，预先设定的反应命令就会被执行。
+举例：
+        #action {说道} {#nop} {2}
+        #ac {^杏话梅说道：%0} {chat  $0} {1}
+            当看到这么段文字时：
+                    慧缈说道：今天去谁家蹭饭呢？
+                    杏话梅说道：土土好象买了海鲜，去他家吧！
+                    你说道： 杏话梅说道：土土好象买了海鲜，去他家吧！
+            反应为：
+                    【 闲聊】核桃(Nut)：土土好象买了海鲜，去他家吧！
+            解释：
+                    慧缈说的话将执行第一个触发反应命令 #nop，意思是无论慧缈说
+                            什么，都不会触发任何优先权低于 2 (如：3, 4, 5...) 的命令。
+                    杏话梅说的话将执行 chat $0，因为此触发的优先权高于前一触发。
+                    而最后一句话将执行第一个反应命令，就是#nop，因为第二个触
+                            发只有在行首才会引起反应。
+
+其它：
+1. #action
+    将列出所有定义了的触发。
+2. #action  *说*
+    将列出所有包含 说 为触发文字的触发。
+3. 相关命令：#unaction ( 取消触发 ), #nop ( 非执行指令 )
+
+
+~ALL
+
+格式： #all {命令}
+用处：将同一个命令送到本窗口现存的所有session。
+举例：
+         #all chat* laugh
+         显示：现存的所有session的角色会同时在闲聊频道大笑起来。
+
+~ANTISUBSTITUTE
+
+format:      #antisubstitute {string}
+             #antisubstitute string
+
+Will cause any line that contains the string specified to not be checked for
+substitutes and gags.  The ^ char starting a string will tell the client to
+only antisubstitute lines that START with the string specified.
+
+examples:
+#antisub {^You}
+any line starting with 'You' will not be checked for subs.
+#antisub {^You%0hit.}
+lines that start with 'You', and also contain 'hit.' will not be subbed.
+#antisub {annihilate}
+any line that contains the word 'annihilate' will not be subbed.
+
+~BELL
+
+format:       #bell [level=5]
+							#bell threshold [threshold]
+
+sends a beep to your terminal when level>=threshold.
+default level and threshold are all 5.
+
+              #bell option [option] [frequency] [duration]
+This option is for windows only: 0: soundcard, 1: speaker.
+For speaker, user can specify the frequency (all) and duration (not for 95/98/Me) of the beep.
+
+example:
+#action {tells you} {#bell}
+#action {you are in danger!!!} {#bell 9}
+In normal case, both action will chime you.
+
+Now you only want the 2nd case to send u a beep:
+#bell threshold 6
+Since #bell == #bell 5 is below the threshold 6, only
+the second action will send a real beep.
+
+~BOSS
+
+格式：#boss [密码]
+
+逃避老板检查命令
+用处：隐藏起所有的 ytin 窗口，可在 File 的选项中选择热键 ESC 代替 #boss。
+            再开一个新的ytin窗口将恢复所有隐藏起来的窗口。
+      如果用 #boss 命令时加了密码，当重新想显示隐藏窗口时，需要输入同样密码。
+      Unix 下只是送出一堆字符掩盖当前屏幕，保护性不大。
+
+~CHAR
+
+格式：#char {你所喜欢的其它符号}
+用处：重新定义 ytin 的命令起始符号 #。
+举例：
+         #char /
+             从此后，命令行将用 / 来开始，而不再是 #，比如：/alias。
+         /char #
+             重新设置 ytin 命令起始符为 # 。
+注意：你的 tintinrc 或者其他 script 文件被读入时，第一个符合如果符合
+一定条件，自动被设为命令起始符。
+
+
+~CHR
+
+format:       #chr {string} {number}
+
+example:
+#chr {ctrlG} {7}
+This will assign ascii char 7 to variable ctrlG, when u send out
+$ctrlG, u actually send out a beep (^G).
+
+another example:
+#chr {_ESC} {39}
+#var {_RED} {${_ESC}[31m}
+
+This will assign 27 (Escape key, or ^[) to variable _ESC,
+and assing ^[[33m, which is ansi color of RED, to variable _RED.
+
+let you convert
+~CR
+
+format:              #cr
+
+Sends a carriage return to the session.  Useful for aliases that nees carriage
+returns.
+
+~CTOI
+
+format:              #ctoi {x} {y}
+
+converts chinese GB code y to digits, also converts chinese direction
+east/west et al to e,w,s,n,...
+Can be disabled in compile option. (-DCHINESE)
+#example: #ctoi {x} {三千四百五十一}
+x will be 3451
+
+~DECRYPT
+格式：               #decrypt <字符串>
+
+将用 #encrypt 加密过的字符串解密并送到 MUD. 这只是一个简单保护。
+例子：
+             #encrypt security
+yTin 会显示： LY,[CC7ZLIH
+现在如果你想把密码存在文件里，相对比较安全：
+             #var passwd {LY,[CC7ZLIH}
+当 MUD 问你的密码时，你可以用 action 等输入：
+             #decrypt $passwd
+decrypt 在一个 session 中不允许执行超过一次，所以加密后别人如果拿到你的
+文件，最多只能登陆进 mud, 不能再将密码解密来改动你的密码。 (再次强调，这
+只是一个初级保护，并且如果你忘记了加密前的密码，你也无法再取会密码。)
+
+~DELIMITER
+
+格式：               #delimiter [<字符串>]
+
+设定 item 的分隔符。
+
+See also: getlistlength, getitemnr
+
+~ECHO
+
+format:       #echo
+
+Echo is used to see what actions are being triggered.  #echo toggles this
+feature on and off.
+
+~ENCRYPT
+
+格式：       #encrypt <你的密码>
+yTin 会显示被加密后的密码。
+
+See also: decrypt
+
+~END
+
+format:       #end
+
+terminate tintin++ and return to unix.  On most systems, ctrl-C has the same
+effect.
+
+~HELP
+
+format:       #help [command]
+
+get a listing of commands, or get help and a specific command.
+
+~HIGHLIGHT
+
+format:       #highlight [{type}] [{string}]
+              #highlight [type] [{string}]
+
+The [] signify optional arguments.
+
+The higlight command is used to allow you to highlight strings of text from
+the mud.  The possible types are bold, reverse, faint, italic, blink, or
+a number between 1 and 8.  The numbers correspond to colors 1 through 8
+of your color pallette.
+
+New to v1.5, you can now use the color names as well as the old convention of
+#'s for colors.  Valid color names include:
+
+red, blue, cyan, green, yellow, magenta, white, grey, black, brown, charcoal,
+light red, light blue, light cyan, light magenta, light green, b red, b blue,
+b cyan, b green, b yellow, b magenta, b white, b grey, b black, b brown,
+b charcoal, b light red, b light blue, b light cyan, b light magenta,
+b light green, bold, faint, blink, italic, reverse
+
+The %0-9 variables can be used as 'wildcards' that will match with any text.
+They are useful for highlighting a complete line.
+You may start the string to highlight with a ^ to only highlight text
+if it begins the line.
+
+Note: This command is only compatible with ANSI/VT100 terminals or emulators.
+
+examples:
+#high {reverse} {Valgar}
+print every occurrence of 'Valgar' in reverse video
+#high {6} {%0tells you%1}
+print every complete line that contains 'tells you' in color 6
+#high bold {^You}
+boldface any 'You' that starts a line
+#high {red, blink} {Grimne}
+each time the word Grimne appeared, it's be shown in a blinking red color.
+
+~HISTORY
+
+format:        #history
+
+The history command will display a listing of the most recent keyboard
+input.
+
+~IF
+
+format:        #if {conditional} {command(s)}
+
+The if command is one of the most powerful commands added since TINTINv3.
+It works similar to an if statement in other languages, and is loosely based
+on the way C handles its conditional statements.  When an if command
+is encountered, the conditional statement is evaluated, and if TRUE
+(any non-zero result) the command(s) are executed.  The if statement is
+only evaluated if it is read, so you must nest the if statement inside
+another statement (most likely an action command).  The conditional is
+evaluated exactly the same as in the math command, only instead of storing
+the result, the result is used to determine whether to execute the
+command(s).  '#help math' for more information.
+
+*!* Warning *!*:  #if can only compare numerical values at this time.  It can't
+be used to compare a set of strings (as of yet at least).
+
+examples:
+#action {%0 gives you %1 gold coins} {#if {%%1>5000} {thank %%0}}
+if someone gives you more than 5000 coins, thank them.
+the %%1 and %%0 belong to the action, and not to the if, and that is why
+the double % are needed.
+#action {^<hp:%0 } {#if {%%0<100} {flee}}
+If your status prompt is of the form <hp:100 ma:50 mo:100>, this action
+will get your hit points, compare them to 100, if less than 100, flee
+
+~IGNORE
+
+格式：#ignore
+      可简写为 #ig。
+忽略触发
+用处：关上或打开所有设定的触发 (action) 。第一次关，再次为开，再一次
+            又关，如此反复。利于临时关闭触发。
+NEW: 在不清楚当前触发开关状态时，可以用绝对值：
+     #ignore 1  关闭触发
+     #ignore 0  开启触发
+
+~INFO
+
+format:                #info
+
+Displays the number of actions, aliases, variables, substitues,
+antisubstitutes, and highlights for the current session.  If no session
+is active, then the statistics on the defaults are given.
+
+~KILLALL
+
+format:                #killall
+
+Killall deletes all aliases, actions, subs, antisubs, highlights, variables
+in one fell swoop.  Useful now, so you don't have to exit tintin++ to
+load up a new coms file.
+
+~LOG
+
+格式：#log {filename} [{option}]
+记录
+
+用处：将你所经历的所有事情都记录在一个文件中。再次键入 #log 便可停止
+            记录。
+
+Example (multiple logs support since version 1.83d1):
+#log 1.log            <== #OK. LOGGING..... (RAWMODE=0)
+#log 2.log +          <== #OK. LOGGING..... (RAWMODE=0 APPEND) -- log appended to file
+#log ?                <== #FILES BEING LOGGED: 1.log, 2.log.
+#log 1.log -          <== #LOG FILE "1.log" IS NOW OFF.
+#log                  <== #OK. ALL LOGGINGS TURNED OFF.
+#log 1.raw 1          <== #OK. LOGGING..... (RAWMODE=1) -- logs TELNET sequence as well
+#log 2.raw 1+         <== #OK. LOGGING..... (RAWMODE=1 APPEND) -- guess ;-)
+
+~LOOP
+
+format:        #loop {start,finish} {command(s)}
+
+Like a for-next loop, will loop from start to finish incrementing or
+decrementing by 1 each time through.  The value of the loop variable is
+places in %0, and can be used in the command(s).  If start>finish, it will
+loop backwards.
+
+examples:
+#loop {1,3} {get all %0.corpse}
+equivalent to the following:
+  get all 1.corpse;get all 2.corpse;get all 3.corpse
+#loop {3,1} {drop %0.key}
+equivalent to
+  drop 3.key;drop 2.key;drop 1.key
+
+~MACRO
+
+format:        #macro {键盘数字表示} {所设 macro}
+               #macro 1
+
+例子：
+#macro {67, 47} {go west}
+#macro {24, 47} {go east}
+前者表示 Numlock 的时候按数字键盘 7 就输入 go west, 后者表示
+Numlock 不开的时候同样键盘输入 go east. 目前不支持 ctrl/alt/shift
+状态检查。
+
+#macro 1   ==> 动态测试键盘的数字表达，按 esc 键回复正常状态。
+
+另见: unmacro
+注： Unix 下的 macro 比较复杂，正在琢磨怎样搞得和 windows 下兼容高些。
+
+~MAP
+
+format:        #map {direction}
+
+Will add a direction to the end of the current path.  Useful for mapping
+while following someone.
+
+example:
+
+#action {$leader leaves %0.} {#map {%%0}}
+if the person stored in $leader leaves the room, the direction is added
+to the end of the path.
+
+~MARK
+
+format:        #mark
+
+Clear the path list and start the new path at your current location.
+
+~MATH
+
+format:        #math {variable} {expression}
+
+Performs math functions and stored the result in a variable.  The math
+follows a C-like precedence, as follows, with the top of the list having
+the highest priority.
+
+Operators                    Function
+------------------------------------------------
+!                            logical not
+*                            integer multiply
+/                            integer divide
++                            integer addition
+-                            integer subtraction
+>                            greater than (result is non-zero or zero)
+>=                           greater than or equal (result is non-zero or zero)
+<                            less than (result is non-zero or zero)
+<=                           less than or equal (result is non-zero or zero)
+= or ==                      equals (result is non-zero or zero)
+!=                           not equal (result is non-zero or zero)
+& or &&                      logical and (result is non-zero or zero)
+| or ||                      logical or (result is non-zero or zero)
+
+True is any non-zero number, and False is zero.  In the expression, you may
+use T and F as true and false.  Parentheses () have highest precedence,
+so inside the parentheses is always evaluated first.
+
+examples:
+#math {heals} {$mana/40}
+Assuming there is a variable $mana, divide its value by 40 and store the
+result in $heals.
+#action {^You receive %0 experience} {updatexp %0}
+#alias updatexp {#math {xpneed} {$xpneed-%%0}
+Let's say you have a variable which stores xp needed for your next
+level.  The above will modify that variable after every kill, showing
+the amount still needed.
+
+~MESSAGE
+
+format:        #message {type}
+
+This will toggle off and on the messages dealing with a certain type of
+command.  The possible message types are "aliases", "actions", "substitutes",
+"antisubstitutes", "highlights", "variables",	"pathdir", "read", and "delimiter".
+This is very helpful if you are using #math and #if, and setting a lot of
+variables, so you don't keep getting the Variable Set messages.
+
+example:
+#message {variable}
+toggles whether messages dealing with variables will be shown.
+#message {variable} {1}
+toggle it to be TRUE.
+
+~NOP
+
+格式：#nop {文字串}
+
+非操作指令
+用处：1. 请参阅 ACTION 命令中的举例，在那里，#nop 表示此action将不被
+                执行。
+            2. 可以用此做些解释或记录。
+举例：
+         #nop {这个alias是很危险的：#alias kiss kill}
+
+~ORD
+
+format:        #ord {variable} {string}
+
+Converts the 1st character of string to its ascii code and assign it
+to variable. See similar Perl function ord().
+
+~PING2
+
+格式:        #ping2 [0]
+
+Pseudo ping, using telnet sequence TIMING(0x06).
+#ping 0 to force reset upon network timeout.
+
+~PATH
+
+format:        #path
+
+Show your current path.
+
+~PATHDIR
+
+format:               #pathdir {odd_dir} {what speedwalk should interpret it as}
+
+New for v1.5, this command will allow those player who play on muds that
+have diag./odd directions to use speedwalk.
+
+example:
+#pathdir {nw} {nw}
+each time {nw} is excountered in the speedwalk, tintin++ will send a {nw} to
+the mud.
+
+~PAUSE
+
+格式：#pause {n}
+            n 以 秒 为单位，n 为正数，可以是小数。
+用处：同时送出的命令将每隔一定时间显示出来。
+举例：
+         #pause 5.5
+             时间间隔为 5.5  秒。
+         #10 haha
+             haha 这个命令将每隔 5.5 秒钟显示一次，总计 10 次。
+其它：
+1. #pause：显示目前的 pause 状态。
+2. #pause 0：关闭 pause 。
+3. 相关指令：#sleep, #purge
+
+
+~PRESUB
+
+format:        #presub
+
+Toggle whether actions are processed before substitutes, or after.  With
+presub on, actions are performed on the substituted buffer, and if
+you are gagging heavily, it will increase the speed of execution.
+There are also many times you don't want to check for actions on
+lines you have gagged, and this will allow that.
+
+~PURGE
+
+format: #purge
+
+格式：#purge
+
+清除待送指令
+
+用处：用来停止用 #pause (和 #sleep，未加) 传送的命令。
+举例：
+        #pause 1
+        #100 kiss miaom
+        如果发现老婆来了，赶紧 #purge 开可以把没送出去的 kiss 收回来。
+(未加，以后才可以用)
+        #sleep 10;exercise 2000
+            在系统休息 10 秒后，exercise 2000 的命令将被执行。
+           如果在键入上行命令后 10 秒内，用 #purge ，系统休息被取消，
+                   exercise 2000 也将被取消。
+Example:
+#purge             <== same as #purge 1
+#purge 1           <== DEFAULT, clear the pending commands due to
+                       #pause, #slow and #sleep (0x01)
+#purge 2           <== clear the pending commands due to
+                       #pause, #slow and #sleep2 (0x02)
+#purge 3           <== 0x03 = 0x01+0x02, clear the pending commands due to
+                       #pause, #slow, #sleep (0x01) and #sleep2 (0x02)
+#purge 0           <== clear the pending commands due to #pause, #slow
+
+
+~PURIST
+
+format: #purist
+
+This currently works for Windows version or split mode under Unix version.
+Disable the default "local echo" mode. Commands typed will not show locally.
+
+See also: #unpurist
+
+~RAW
+
+格式：         #raw
+
+用处：         #raw test          <= 只送 "test", 最后不加 \n
+例子：         #func chr {#chr _ {%%0};#res $_}
+							 #raw @chr{4}       <= will send ctrl-D (^D 的十进制 ascii 码是 4)
+               #raw @chr{27}      <= will send ESC
+               #raw @chr{1}d      <= send ctrl-A, d ...
+另见：         #toggle raw (#help toggle)
+
+~REDRAW
+
+format:        #redraw
+
+If redraw is on, and you're not in split mode, the input
+line will be redrawn when any text arrives, or tintin++ prints any
+messages.  This helps you avoid your input being spread out and
+unreadable when there is heavy text flow from the mud.  In split mode,
+this variable is ignored.
+
+~RETAB
+
+format:                #retab
+
+New for v1.5.  #retab allows you to re-load the tab completion file.
+
+~RETURN
+
+format:        #return
+
+Pop the last move off the top of the path, and move the opposite direction.
+
+~READ
+
+格式：#read 文件名
+
+读文件指令
+
+           这是第一个应该学会的指令。
+用处：将 ytin 的命令文件都进来，新都进的命令将和以前已有的命令混合，并
+            取代相同的旧的命令。
+举例：
+        先做个 ytin 的命令文件，叫 ttrc.1，这应该是个纯粹的文本文件( .txt )，其中
+        每个 alias 和 action 占据一命令行 ( 不是实际占据行，而是每一回车 return         计为一命令行 )，然后打开 ytin 窗口，键入 #read ttrc.1，所有在 ttrc.1 中的
+        命令将被读入。
+        如果 ttrc.1 和 ytin.exe 不在同一目录 (dir) ，则在文件名前要加上从 ytin.exe
+        到 ttrc.1 的全路径。
+
+~SAVEPATH
+
+format:        #savepath {alias name}
+
+Save the current path to an alias, which can then be saved to a coms file.
+The alias name provided will be the new name of the alias to represent
+that path.  Useful for after mapping to be able to get back to the place
+again.
+
+~SESSION
+
+格式：#session {session名} {ip port}
+
+说明：#session 可简写成 #ses。
+            session名可用变量代替，以区分同一窗口下的不同session。
+            此命令最好与 alias 一起用，以方便连接到mud。
+用处：连接到mud。session 名最好不要用数字，以免切换 session 的时候
+      跟 tintin 的重复命令冲突。
+举例：
+         #session el1 {202.105.177.101 6666}
+             当打开 ytin 窗口后键入此行命令，将直接连接到东方神话mud。这时，
+                     这个 session 的名字就叫 el1。
+         #alias el {#session %1 202.105.177.101 6666}
+         #alias mud2 {#session %1 123.456.789 0000}
+              当键入 el nut 时将连接到东方神话mud，这个 session 的名字就是 nut
+                      了。用角色名字做 session 名的好处是容易取分不同 session。
+              同时，在 nut 这个 session 中，可以再开别的 session，比如：可以键
+                      入 mud2 xine，或者 el miaom，一个名为 xine 或 miaom 的session
+                      将产生。
+              用 #nut, #xine, #miaom 可以在不同 session 中来回切换。
+其它：
+核桃的得意之处。当 port 是0时，一个虚拟的并不实际连接到任何地方的session
+将被激发，IP 是此 session 建立后显示的信息。这对自动连接很重要，是tintin++
+长期以来所缺乏的功能。
+
+~SHOWME
+
+格式：#showme {欲显示文字}
+
+显示指令
+
+用处：只是显示一些文字，并不送到mud，可用来显示一些状况和自我警戒。
+举例：
+        #action {看起来%1想杀死} {#bell;escape;alias pker $1;#showme 天啊，这混蛋！}
+
+
+~SLEEP
+
+格式：#sleep {seconds};别的命令
+
+系统休息
+            seconds为正数，可为小数。
+用处：在多个命令中加入暂停，以免命令过多而引起麻烦。
+举例：
+         #60 buy yao from boss;#sleep 5;#60 buy yao from boss
+另外： #10 {#10 practice;#sleep 3}
+       是不行的。正确方法是：
+       #alias {aa} {#10 practice;#sleep 3;aa}
+       当然要加些判断，免得掉进死循环。
+其它：
+ 1. 相关命令：pause, purge
+
+~SLEEP2
+
+format: #sleep {seconds};other_commands
+
+#sleep2 offers flexibility for controlling the queued jobs using the purging command.
+For example, one may want to some delayed commands not to be affected by #purge.
+#sleep2 is for this purpose. In the case one wants to force to purge the delayed
+commands from #sleep2, use #purge 2 (purges #sleep2) 
+or #purge 3 (purges #sleep and #sleep2).
+
+See also: #sleep, #purge
+
+~SLOW
+
+format: #slow {interger}
+
+#slow 0: disable SLOW mode
+
+#slow 1: means when the server give 1 response (net packet),
+the client will send one more commands. (Compare to zmud,
+zMud need users' action to determine if the client will continute
+to send more commands, but in yTin, this is done automatically,
+although the server response might not be what was generated
+by user's last command, in most case it is much easier to
+use and sufficient).
+
+#slow 5:
+will send 5 command from queue when sever gives 1 response.
+The benefit is: when net is lag, it sends
+commands much faster than #slow 1, which is very like zmud's
+behavior.
+
+
+~SNOOP
+
+format:        #snoop {session name}
+
+If there are multiple sessions active, this command allows you to see what
+is going on the the sessions that are not currently active.  The lines
+of text from other sessions will be prefixed by 'session name%'.
+
+~SPEEDWALK
+
+格式：#speedwalk
+用处：快速行走，不用分号( ; ) 便可将要行走的路径一次键入。
+举例：
+       2s5w3s3w2nw
+            = s;s;w;w;w;w;w;s;s;s;w;w;w;n;n;w
+NEW: 被 #toggle speedwalk 代替，例如： #toggle speedwalk 0
+
+~SPLIT
+
+format:        #split {line #}
+               #split line #
+
+New for 1.2, with a vt100 or ANSI emulator, this will allow you to set up
+a split screen.  The keyboard input will be displayed in the bottom window,
+while mud text is displayed in the upper window.  This requires a fairly
+decent emulator, but works on most I have tested.  The screen will be split
+at the line indicated by line #, and should be around 3 lines above the
+bottom of the screen.  When the enter key is pressed, the text will
+be sent to the mud, and also be echoed to the upper window.
+
+If a line # isn't specified, the screen is split at line 21.
+
+example:
+#split 35
+split the screen at line 35.
+
+~STRNCMP
+
+format:       #strncmp {string1} {string2} {interger N}
+
+Similar to C function strncmp(char* str1, char* str2, int n).
+Return value is 0 if string1 and string2 are same for the 1st N
+characters, nonzero if not same.
+
+See also: strrchr, strstr, substr, ord, chr
+
+~STRRCHR
+
+format:       #strrchr {string1} {string2}
+
+Similar to C function strrchr(char* str, char ch).
+Reverse search of the 1st occurrence of char string2 (actually it is
+the 1st char of string2) in string1, then assign the 0 based
+index of string1 to the default variable $_.
+assign -1 to $_ if search does not match.
+(well, here we used some Perl convention.)
+
+See also: strrchr, strstr, substr, ord, chr
+
+~STRSTR
+
+format:       #strstr {string1} {string2}
+
+Similar to C function strstr(char* str1, char* str2).
+Find the 1st occurence of str2 from str1, then return 0 based
+index of str1. Return value is assigned to $_.
+If there is no match, -1 is assigned to $_.
+
+See also: strrchr, strstr, substr, ord, chr
+
+~SUBSTR
+
+format:       #substr {string} {index1} {length}
+
+Similar to Perl function substr().
+Currently is not as smart as Perl yet. Need specify explicitly
+0 based index1 and length.
+When length is <0, will count from the tail.
+Return value is assigned to $_.
+
+example:
+#substr {01234567} {3} {4}
+will assign {3456} to $_.
+#substr {0123456789} {3} {-5}
+will assign {34} to $_ since the last 5 {56789} is truncated.
+
+Note: we do not need "strcat" command in yTin, #var {str1} {$str1$str2} will do it.
+
+See also: #strrchr, #strstr, #strncmp, #ord, #chr
+
+~SUBSTITUTE
+
+format:        #substitute [{text}] [{new text}]
+
+The [] signify optional arguments.
+
+Allows you to replace original text from the mud with different text, or
+delete it altogether.  This is helpful for if you have a slow modem, or
+there is a lot of text sent during battles, and the like.  the %0-9
+variables can be used to capture text and use it as part of the new output,
+and the ^ char is valid to only check the beginning of the line for the
+text specified.
+
+If a . is the only character in the new text argument, if the line is
+matched, it will be deleted.
+
+If only one argument is given, all subs that match the string are displayed.
+The * char is valid in this instance.  See help wildcard.
+
+If no argument is given, all subs are displayed.
+
+examples:
+#sub {leaves} {.}
+gag any line that has the word 'leaves' in it.
+#sub {^Zoe%0} {ZOE%0}
+any line that starts with the name Zoe will be replaced by a line that
+starts with 'ZOE'
+#sub {%0massacres%1} {%0MASSACRES%1}
+replace all occurrences of 'massacres' with 'MASSACRES'
+
+~GAG
+
+格式：#gag {字符串}
+用处：忽略任何含有此字符串的行。
+举例：
+        #gag {核桃}
+            任何包含 核桃 二字的行都将不会向你显示。
+注意： #toggle presub 0 或者 1 决定被 gag 的东西是否触发 action 。
+另见： #help presub
+
+~SYSECHO
+format:        #sysecho {string} {>}  {filename}
+               #sysecho {string} {>>} {filename}
+This is a handy port for #system echo string > filename.
+It was not nice to use #system echo under Windows version.
+
+See also: fclose/fopen, feof, fseek, fgets
+
+~SYSTEM
+
+format:        #system {command}
+
+Executes the command specified as a shell command.  The name of the system
+command can be changed in tintin.h for your security.
+
+NEW from ytin1.80:
+#system {command} {option}
+options: (default is 0)
+For Windows NT/2000:
+0: try to hide output window, capture output by > tintin.out, then display
+   in ytin windows (can action on the message)
+1: try to hide output window, do not add > tintin.out
+2: do not try to hide output window, capture output by > tintin.out
+3: do nothing, old tintin++ behavior
+For Unix/Windows 95/98:
+0,2: capture output by > tintin.out, then display in ytin window (can
+     action on the message.)
+1,3: do nothing, old tintin++ behavior.
+
+Notice: if use some commands like vi, please specify option {3}.
+
+
+~TABADD
+
+format:               #tabadd {word}
+
+Adds a word to the end of the tab completion list.
+
+~TABDELETE
+
+format:               #tabdelete {word}
+
+Deletes a word from the tab completion list.
+
+~TABLIST
+
+format:               #tablist
+
+Displays all words in the tab completion list.
+
+~TELNET
+
+format:               #telnet {number}
+                      #telnet {telnet sequence symbol}
+Send the telnet sequence.
+
+Example:
+#telnet AYT         <== send AYT (are you there) to the host, MudOS will
+                          reply [-YES-], other hosts may vary
+#telnet ?           <== request help, advanced users c.f. telnet RFC for details
+
+~TEXTIN
+
+格式：#textin {文件名}
+
+读入文件指令
+
+用处：用于 online 文字输入。
+举例：
+        post lovestory
+        #textin lovestory.1
+         .
+           lovestory.1 就是一个被输入的文件。如果这个文件和 ytin.exe 不在同一
+           目录 ( dir )，则要把从 ytin 到此文件的全路径写出。
+
+~TICK
+
+TICK是一个用来保证机器人在特定时间间隔内重复同样命令的指令。
+举例说明：
+       #alias {eltick1} { #action {^#TICK!!!} {uptime};#ticksize 120;#tickon}
+           当键入 eltick1 后，每隔 120 秒，uptime 这个指令将被执行一次。
+           用 ^#TICK!!! 做触发是防止一般技巧的外人破坏机器人。
+       命令说明：
+              1. #ticksize：用来设定时间间隔，为正数。可在任何时候改变ticksize。
+              2. #tickon：打开 tick 。
+              3. #tickoff：停止 tick 。
+              4. #tick：显示到下一 tick 的时间。
+其它：
+这是一个非常重要的指令，里面有一些小技巧，相信大家能在实际运用中逐渐
+体会。
+
+~TICKOFF
+
+format:        #tickoff
+
+Turn off the tintin++ built in tick counter.
+
+~TICKSET
+
+format:        #tickset
+
+Turn on the tintin++ tickcounter, and set time until next tick equal
+to tick size.
+
+~TICKSIZE
+
+format:        #ticksize number
+
+Set a new time, in seconds,  between ticks for the tintin++ tickcounter.
+
+~TOLOWER
+
+format:        #tolower var text
+
+Just like the #variable command, only it converts the text
+to lowercase before assigning it to the variable.
+
+~TOGGLE
+
+format: #toggle {setting} [{absolute_value}]
+
+It is actually both toggle and set
+Available toggle settings:
+       #toggle big5 1       <= handles BIG5 encoding's problem
+       #toggle echo         <= same as #echo
+       #toggle ignore       <= same as #ignore
+       #toggle presub       <= same as #presub
+       #toggle prompt_on
+       #toggle raw          <= pernament interactive mode (windows version)
+                               see also: #raw. use windows menu to toggle off
+Note: when ESC is mapped to boss key, to send real ESC, use ctrl-[. Macroes
+      still works after toggle raw 1, alias only works for actions et al.
+      Interactive mode is temporarily off when no sessions.
+       #toggle redraw       <= same as #redraw
+       #toggle speedwalk    <= same as #speedwalk
+       #toggle stripcolor   <= toggle if stripcolor before action or not
+       #toggle ticker_in_split  <= disable the ticker on split line
+       #toggle tcp_nodelay  <= disable the Nagle algorithm (GOOGLE IT FOR TECH DETAILS)
+       #toggle togglesubs   <= same as #togglesubs
+       #toggle verbatim     <= same as #verbatim
+It is recommended to use #toggle command when it is available,
+in later version other old commands that can be replaced by toggle
+might be no longer available.
+
+~TOGGLESUBS
+
+format:        #togglesubs
+
+Toggle whether substitutes should be ignored.  If subs are ignored,
+text will not be checked for subs, but highlights will still be
+checked for.
+
+~TOUPPER
+
+format:        #toupper var text
+
+Just like the #variable command, only it converts the text
+to uppercase before assigning it to the variable.
+
+~UNACTION
+
+格式：#unaction {欲取消触发}
+
+取消触发
+
+用处：取消已设定的触发 ( aciton )。
+举例：
+        #unaction {说道}
+             已设定的 action {说道} 就不会再引发命令了。
+        #unaction *你*
+             所有含有 你 这个字的 action 就全部被取消了。
+
+~UNALIAS
+
+格式：#unalias {欲取消的 alias 名}
+
+取消别称 ( alias )
+
+用处：取消已设定的别称 ( alias )。
+用法与 #unaction 类似。
+
+~UNANTISUBSTITUTE
+
+format:        #unantisubstitute {string}
+               #unantisubstitute string
+
+Remove antisub(s) from the antisub list which match {string}.  The
+'*' character will act as a wildcard and will match any text.
+See help wildcard.
+
+examples:
+#unantisub {%0tells you%1}
+remove the antisub for '%0tells you%1'
+#unantisub *
+remove all antisubs
+#unantisub {^You*}
+remove all antisubs that start with '^You'
+
+~UNGAG
+
+格式：#ungag {不想再忽略的文字}
+
+用法与 #unaction 类似。
+
+~UNSUBSTITUTE
+
+format:        #unsubstitute {string}
+               #unsubstitute string
+
+Remove substitute(s) from the substitute list which match {string}.  The
+'*' character will act as a wildcard and will match any text.
+See help wildcard.
+
+examples:
+#unsub {%0tells you%1}
+remove the sub for '%0tells you%1'
+#unsub *
+remove all subs
+#unsub {^You*}
+remove all subs that start with '^You'
+
+~UNHIGHLIGHT
+
+format:        #unhighlight {string}
+               #unhighlight string
+
+Remove highlight(s) from the highlight list which match {string}.  The
+'*' character will act as a wildcard and will match any text.
+See help wildcard.
+
+examples:
+#unhigh {%0tells you%1}
+remove the highlight for '%0tells you%1'
+#unhigh *
+remove all highlights
+#unhigh {^You*}
+remove all highlights that start with '^You'
+
+~UNMACRO
+
+see also: macro, alias, unalias
+
+~UNPATH
+
+format:        #unpath
+
+Remove the most recent move from the current path.
+
+~UNPURIST
+
+format: #unpurist
+
+This currently works for Windows version or split mode under Unix version.
+Enable the default "local echo" mode. Commands typed will show locally.
+
+See also: #purist
+
+~UNSPLIT
+
+format:        #unsplit
+
+Exit split mode, and set the screen back to its default terminal settings.
+
+~UNVARIABLE
+
+format:        #unvariable {variable name}
+               #unalias variable name
+
+Remove variable(s) from the variable list which match {variable name}.  The
+'*' character will act as a wildcard and will match any text.
+See help wildcard.
+
+examples:
+#unvar {hp}
+remove the variable $hp
+#unvar *
+remove all variables
+#unvariable {xx*}
+remove all variables that start with 'xx'
+
+~VARIABLE
+
+format:        #variable {<variable_name>} {<text to fill variable>}
+
+Since these are completely new to tintin, and act differently
+than anything else, I feel should spend some time on them.
+These variables differ from the %0-9 in the fact that you could
+specify a full word as a variable name, and they stay in memory for
+the full session, unless they are changed, and they can be saved in
+the coms file, and can be set to different values if you have 2 or
+more sessions running at the same time.  One of the best uses for
+variables I think is for spellcasters.
+
+Currently, you would set up a bunch of aliases like the following.
+
+#alias {flame} {cast 'flame strike' %0}
+#alias {flash} {cast 'call lightning' %0}
+#alias {harm} {cast 'harm' %0}
+
+With the new variables you can do the following:
+
+#alias {targ} {#var target %0}
+#alias {flamet} {flame $target}
+#alias {flasht} {flash $target}
+#alias {harmt} {harm $target}
+
+these aliases will be  defined just as they are written, the variables
+are not substituted  for until the  alias is found  in your input  and
+executed.
+
+so, if before a battle, you do a:
+targ donjonkeeper
+then $target is set to donjonkeeper, and any alias you set up with
+$target in it will substitute donjonkeeper for every instance of
+$target.  Let's say your leader has the following alias set up.
+
+#alias {setttarg} {#var {target} {%0};gt target=%0}
+
+if he did a settarg lich, it would set his $target to lich, and
+would send a:
+
+<name> tells your group 'target=lich'
+
+you could then set an action like so.
+
+#action {^%0 tells your group 'target=%1'} {targ %1}
+
+then when your leader executed his alias, it would also set your
+variable to the target.
+
+Another use for variables would be to set a variable $buffer to
+whoever the current buffer is.  This would be useful in fights
+where the mob switches, or where many rescues are needed.  You
+could set up healing aliases with $buffer in them, and set the
+$buffer variable in an action that is triggered by each switch,
+and each rescue, or just rescues, or whatever.  Then in a
+confusing battle, you will have a better shot at healing the
+right person.
+
+~VAR2ALIAS
+
+format:        #var2alias {alias_to_assign} {$variable_to_convert}
+
+example:       #variable {hi} {good morning!}
+               #variable {test_var} {tell chitchat $hi;tell chitchat help}
+               #var2al {test_alias} {$test_var}
+Alias {test_alias} now is: {tell chitchat $hi;tell chitchat help}
+               #var2al {test_alias} {$test_var wanted!}
+Alias {test_alias} now is: {tell chitchat $hi;tell chitchat help wanted!}
+
+See also: al2variable, alias, variable
+
+
+~VERBATIM
+
+format:        #verbatim
+
+New for 1.2
+
+Toggle verbatim mode on and off.  When in verbatim mode, text will not be
+parsed, and will be sent 'as is' to the mud.  Tab completion and history
+scrolling are still available in verbatim mode.  It is helpful for writing
+messages, doing online creation, and the like.
+
+~VERSION
+
+format:        #version
+
+Show the version number of tintin++ that you are currently running.
+new from 1.80e3: will also force telnet terminal type.
+
+~WHILE
+
+format:        #while {CONDITION} {COMMANDS}
+
+Please be cautious not to create infinite loops. :D
+
+Example:
+#var {counter} {256} 
+#while {$counter > 1} {#showme {$counter} ; #math {counter} {$counter / 
+2}}
+
+
+~WIZLIST
+
+format:        #wizlist
+
+Lists the names of people who helped with with mudding, and with the client.
+If you feel your name should be here, let me know, so many people have
+contributed, and it's hard to name everyone.
+
+~WRITE
+
+format:        #write {filename}
+               #write filename
+
+Writes all current actions, aliases, subs, antisubs, highlights, and
+variables to a coms file, specified by filename.
+
+~WRITESESSION
+
+format:        #writesession {filename}
+               #writesession filename
+
+Write all current actions, aliases, subs, antisubs, highlights, and
+variables that are specific to your current session to a file.  This
+means actions that were not defined when there was no session active.
+
+~ZAP
+
+format:        #zap
+
+Kill your current session.  If there is no current session, it will cause
+the program to terminate.
+
+~SUSPEND
+
+format:        #suspend
+
+Temporarily suspends tintin++ and returns you to your shell.  The
+effect of this command is exactly as if you had typed control-z.
+To return to tintin++, type "fg" at the shell prompt.
+
+~WILDCARD
+
+format:                #command {regexp}
+
+You may use wildcards with certain commands such as #alias, #action,
+#substitute, #unalias, etc.  In commands like #alias, wildcards are
+only valid when you use exactly one argument.  Wildcards are always
+valid for commands like #unalias.  The only wildcard currently
+supported is *, which matches any string 0 or more characters long.
+The wildcard meaning of * may be escaped using the backslash, \.
+
+Examples:
+
+#action {*miss*}
+        shows all actions which contain the word miss in them
+#unaction {*miss*}
+        removes all actions which contain the word miss in them
+#unaction {\*\*\* PRESS RETURN:}
+        removes the action which triggers on the line *** PRESS RETURN:
+
+Many thanks to Spencer Sun for letting me steal some code for this...
+If anyone is interested in having full ls-style regexps, email me
+and maybe it'll be included in 2.0.
+
+~RANDOM
+
+format:                #random {<var_name>} {num}
+
+Random will choose a random # from 1 to num, and store that value
+in <var_name>.  You can access <var_name> as you would any variable
+(see #help variable for help on variables).
+
+~SETPROMPT
+
+format:         #setprompt {string}
+
+SetPrompt is a feature for split window mode (see #help split), which
+will take the status prompt from the mud, and display it on the status
+line of the split window.  You would define <string> the same way you
+would an action (see #help action).
+
+~CLEARPROMPT
+
+format:         #clearprompt
+
+ClearPrompt will turn off the prompt display to the split window.
+
+~IFEXIST
+
+Command: ifexists - checks if a variable exists or not
+
+Syntax:  #ifexists {varname} {do this} else {do this instead}
+
+Example: #ife {leader} {say My leader is $leader!} else {say I have no leader!}
+
+~IFMATCH
+
+Command: ifmatch - checks a string for a mask containing text and *'s
+
+Syntax:  #ifmatch {mask} {string} {do this} else {do this instead}
+
+Example: #ifm {*Iny*} {This is a test string: Iny!} {#shomwe Works fine!} else {#showme Call 911 - the procedure doesn't work!}
+
+~IFSTREQUAL
+
+Command: ifstrequal - string comparisment
+
+Syntax:  #ifstrequal {string1} {string2} {do this} else {do this instead}
+
+Example: #alias {tell} {#ifs {$1} {$whoami} {#showme [Tell to self]: %0} else {Tell %0}}
+
+~GETVARVALUE
+
+Command: getvarvalue - get the contents of a variable
+
+Syntax:  #getvarvalue {dest var} {source var}
+
+Example: #getv {numberofmobs} {mobThe Spirit Guard}
+
+Info:    The variable name can contain any character; not just alpha chars!
+         This function was made more or less redundant when I introduced the
+         improved naming of variables by allowing brackets around the name.
+         ( ${variablename} ). But it's kept for compability with earlier
+         comfiles.
+
+~REVSTRING
+
+Command: revstring - reverses a string/stores it backwards
+
+Syntax:  #revstring {dest var} {string}
+
+Example: #revs myname Happy Iny <-- stores 'ynI yppaH' in the variable 'myname'
+
+See also: delimiter, getitemnr
+
+~GETLISTLENGTH
+
+Command: getlistlength - returns the length of a list
+
+Syntax:  #getlistlength {dest var} {list}
+
+Example: #variable alignlist {1 2 3}
+         #getl Length {$alignlist}   <--- returns 3 in the Length variable
+Another Example:
+         #delimiter {;;}
+         #var list {n;e;s;;get all;n;;e;e;s}
+         #getl Length $list
+The delimiter ";;" breaks the $list into: {n;e;s}, {get all;n} and {e;e;s}
+three parts, thus Length variable is now 3.
+
+See also: delimiter, getlistlength
+
+~GETITEMNR
+
+Command: getitemnr - retrieves specified element from a list (NEW)
+
+Syntax:  #getitemnr {destination variable} {item number start from 0} {list}
+
+Example: #geti {dothis} {1} {smile {say Hi!} flip bounce}  <--- sets dothis to
+'say Hi!'
+
+Example: #getl Length {$rndsocial};#math itemnr $_random//$Length;#geti temp
+{$itemnr} {$rndsocial};{$temp}
+         (will perform a random social from the 'rndsocial' list)
+Another Example:
+         #delimiter {;;}
+         #var list {n;e;s;;get all;n;;e;e;s}
+         #geti {item2} {1} {$list}
+The delimiter ";;" breaks the $list into: {n;e;s}, {get all;n} and {e;e;s}
+three parts, thus the {item2} variable is now: {get all;n}
+
+See also: delimiter, getlistlength
+
+
+~FCLOSE
+format:       #fclose {FILE}
+the variable _ is assigned to 0 if successful, non-zero if failed.
+
+See help on C function: int fclose(FILE* stream);
+See also: fopen/fclose, feof, fseek, fgets, fputs, fread, fwrite, remove, rename, sysecho
+
+~FEOF
+format:       #feof {FILE}
+The variable _ is assigned to 1 if end of file or invalid FILE, otherwise 0.
+
+See help on C function: int feof(FILE* stream);
+See also: fopen/fclose, feof, fseek, fgets, fputs, fread, fwrite, remove, rename, sysecho
+
+~FOPEN
+format:       #fopen {filename} {mode}
+The variable _ is assigned to FILE that was opened if successful, 0 if failed.
+
+Example:      #fopen {test.dat} {a+}
+              #var {FilePointer} {$_}
+              ... ...
+              #fclose {$FilePointer}
+
+For detailed help on the fopen, see the C help file on
+           FILE *fopen( const char *filename, const char *mode );
+See also: fopen/fclose, feof, fseek, fgets, fputs, fread, fwrite, remove, rename, sysecho
+
+~FGETS
+format:       #fgets {buffer} {int limit} {FILE}
+The variable _ is set to 0 if fail, non-zero if successful.
+If n>=2048, n will be reduced to 2048.
+
+See help on C function: char *fgets( char *string, int n, FILE *stream );
+See also: fopen/fclose, feof, fseek, fgets, fputs, fread, fwrite, remove, rename, sysecho
+
+~FSEEK
+format:       #fseek {FILE} {offset} {start_position}
+start_position must be one of SEEK_CUR, SEEK_END, SEEK_SET.
+The variable _ is set to 0 if successful, non-zero on fail.
+
+See help on C function: int fseek( FILE *stream, long offset, int origin );
+See also: fopen/fclose, feof, fseek, fgets, fputs, fread, fwrite, remove, rename, sysecho
+
+~FUNCTION
+
+FUNCTIONS:
+==========
+Added a new list type which I decided to call functions. These are a mixture of
+aliases and
+variables. The following examples will have to do to explain how to use functions:
+
+Example:
+#function {rnd} {#random {temp} {%1,%2};#result {$temp};#unvar temp}
+#showme A random number between 0 and 100: @rnd{0 100}
+
+Functions are treated much like variables. Their value is
+a command-line which is executed, and the functions are substituted
+by the parameter last sent to the #result command
+
+Example:
+#function {lastfuncresult} {#nop}
+#showme Last use of a function gave @lastfuncresult as result.
+
+NB! Functions are NOT evaluated at all the same places as variables so before
+you decide to write a long comfile using functions - check if it works first! :)I might finish my work on the functions later, right now I'm too lazy to though.
+=== FUNCTIONS ARE FOR INSTANCE _NOT_ EVALUATED INSIDE AN IF STATEMENT - YET! ===
+
+~UNFUNCTION
+
+Command: unfunction - remove a function
+
+Syntax:  #unfunction {func name}
+
+~RESULT
+
+Command: result - write a string to the function buffer
+
+Syntax:  #result {-result-}
+
+Example: #func {ctof} {#math result %0*9/5+32;{#result $result degrees fahrenheit};#unvar result}
+         #showme 30 degrees celsius equals @ctof{30}.
+
+Example: #func {ftoc} {#math result (%0-32)*5/9;{#result $result degrees celsius};#unvar result}
+         #showme 80 degrees fahrenheit equals @ftoc{80}.
+
+~*EOF*

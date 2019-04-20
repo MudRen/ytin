@@ -1,0 +1,15 @@
+#ifndef __IVARS_PROTO__
+#define __IVARS_PROTO__
+/* ../ivars.c */
+extern int stacks[100][4];
+extern void math_command(const char *line, struct session* ses);
+extern void if_command(const char *line, struct session* ses);
+extern void ifexist_command(const char *line, struct session* ses);
+extern void revstring_command(const char *line, struct session* ses);
+int eval_strcmp(char* src, struct session* ses);
+extern int eval_expression(const char *arg);
+extern int conv_to_ints(const char *arg);
+extern int do_one_inside(int begin, int end);
+extern void ifmatch_command(const char *arg, struct session* ses);
+
+#endif // __IVARS_PROTO__

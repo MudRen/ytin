@@ -1,0 +1,8 @@
+#ifndef __ANTISUB_PROTO__
+#define __ANTISUB_PROTO__
+/* ../antisub.c */
+extern void parse_antisub(const char *arg, struct session* ses);
+extern void unantisubstitute_command(const char *arg, struct session* ses);
+extern int do_one_antisub(const char *line, struct session* ses);
+
+#endif // __ANTISUB_PROTO__

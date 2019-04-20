@@ -1,0 +1,16 @@
+#ifndef __QUEUE_PROTO__
+#define __QUEUE_PROTO__
+extern void check_queue(struct timeval* tv);
+void process_event(struct timeval* tv);
+extern void add_queue(struct session* &ses, int, struct timeval*, const char*);
+extern void remove_queue(struct event* this_event);
+extern void kill_all_event(struct session* ses);
+extern void show_all_event(struct session* ses);
+extern void kill_all_pending_command(int purgemode, struct session* ses);
+extern void sleep_command(const char* arg, struct session* &ses, const char* line, int event_type);
+
+extern void add_queue_slow(const char* line, struct session* ses);
+extern void check_queue_slow(struct session* ses);
+extern void purge_slow(struct session* ses);
+
+#endif // __QUEUE_PROTO__

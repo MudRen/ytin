@@ -1,0 +1,7 @@
+#ifndef __RLTICK_PROTO__
+#define __RLTICK_PROTO__
+/* ../rltick.c */
+extern int timetilltick(struct session* ses);
+extern void checktick(struct timeval* tv);
+
+#endif // __RLTICK_PROTO__

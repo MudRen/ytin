@@ -1,0 +1,77 @@
+#ifndef __MAIN_PROTO__
+#define __MAIN_PROTO__
+/* main.c */
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 8192
+#endif
+extern int big5;
+extern int echo;
+extern int speedwalk;
+extern int skiptelnetseq;
+extern int togglesubs;
+extern int presub;
+extern int stripcolor;
+extern int toggle_raw;
+extern int ticker_in_split;
+extern int sessionsstarted;
+extern int puts_echoing;
+extern int tcp_nodelay;
+extern int verbose;
+extern int alnum;
+extern int acnum;
+extern int subnum;
+extern int varnum;
+extern int hinum;
+extern int pdnum;
+extern int antisubnum;
+extern int verbatim;
+extern int prompt_on;
+extern int funcnum;
+extern char home[BUFFER_SIZE];
+extern char prompt_line[BUFFER_SIZE];
+extern struct session *sessionlist;
+extern struct session *activesession;
+extern struct listnode *common_aliases;
+extern struct listnode *common_actions;
+extern struct listnode *common_subs;
+extern struct listnode *common_myvars;
+extern struct listnode *common_highs;
+extern struct listnode *common_antisubs;
+extern struct listnode *common_pathdirs;
+extern struct listnode *common_functions;
+extern struct listnode *common_macros;
+extern char vars[10][BUFFER_SIZE];
+extern char tintin_char;
+extern char verbatim_char;
+extern char system_com[80];
+extern char system2_com[80];
+#define N_MESS_TYPES 9
+extern int mesvar[N_MESS_TYPES];
+extern int display_row;
+extern int display_col;
+extern int input_row;
+extern int input_col;
+extern int split_line;
+extern int term_columns;
+extern char k_input[BUFFER_SIZE];
+extern char done_input[BUFFER_SIZE];
+extern char prev_command[BUFFER_SIZE];
+extern int hist_num;
+extern int redraw;
+extern int is_split;
+extern int text_came;
+extern int time_started;
+extern struct timeval tv_started;
+extern int conn_has_closed;
+
+extern void tininit(char* lpcmd);
+
+#ifndef _WINDOWS
+extern void winchhandler(int no_care);
+extern void tstphandler(int no_care);
+extern int main(int argc, char **argv);
+#else
+extern int buffer_view; /*tag for buffer output to CTinView*/
+#endif
+
+#endif // __MAIN_PROTO__

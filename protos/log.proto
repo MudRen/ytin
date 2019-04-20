@@ -1,0 +1,11 @@
+#ifndef __LOG_PROTO__
+#define __LOG_PROTO__
+/* ../log.c */
+struct log_list *new_loglist(struct log_list *left);
+void log_off(const char *filename, struct session* ses);
+extern void logit(struct session* &ses, const char *b);
+extern void lograw(struct session* &ses, const char *b, int l);
+extern void log_command(const char *arg, struct session* ses);
+
+
+#endif // __LOG_PROTO__

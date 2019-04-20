@@ -1,0 +1,1877 @@
+
+help available on the following:
+
+action              alias               al2variable         all
+antisubstitute      bell                boss                cd
+char                chr                 clearprompt         cr
+decrypt             delimiter           echo                encrypt
+end                 fclose              feof                fgets
+fopen               forall              fputs               fread
+fseek               function            fwrite              gag
+GBfilter            getitemnr           getlistlength       help
+highlight           history             if                  ifexist
+ifmatch             ignore              info                killall
+log                 loop                macro               map
+mark                math                message             nop
+ord                 path                pathdir             pause
+ping2               presub              purge               purist
+raw                 read                redraw              remove
+rename              result              retab               return
+revstring           savepath            session             setprompt
+showme              sleep/sleep2        slow                snoop
+speedwalk           split               stripansi           strlen
+strncmp             strstr              substitute          strrchr
+substr              suspend             system              syscat
+sysecho             tabadd              tabdelete           tablist
+tabsave             telnet              textin              tick
+tickoff             tickset             ticksize            tolower/toLower
+toggle              togglesubs          toupper/toUpper     unaction
+unalias             unantisubstitute    unfunction          ungag
+unhighlight         unmacro             unpath              unpurist
+unsplit             unsubstitute        unvariable          variable
+var2alias           verbatim            version        while     wildcard
+wizlist             write               writesession        zap
+
+~ACTION
+
+format:     #action [{string}] [{command(s)}] [{priority}]
+
+The [] signify optional arguments.
+
+Have the client search for a certain string of text from the mud, if the
+client receives that string, it will execute the command(s).  Variables
+%0-9 are substituted from the input string, and can be used in the command(s)
+side of the command. Previously, all actions were stored alphabetically in the
+list, which meant that some of the important actions could exist at the end
+of the list (which could result in slow reaction times for those actions).
+Priorities have been added to actions now.  The third parameter of the command
+will tell how important tintin should reguard this action (0 most important,
+9 least important).  If no priority is given, a default value of 5 is assigned.
+
+if the string to be searched for starts with a ^, only the beginning of the
+line will be searched.
+
+If #action is typed with no arguments, all actions defined are listed.
+
+If #action is typed with only one argument, actions defined that match that
+argument are displayed.  The * character is valid in this case to use
+as a 'wildcard'.  See help wildcard.
+
+examples:
+#action {Grimmy has arrived} {smile grimmy} {2}
+If Grimmy enters the room, you will automatically smile at her.  The priority
+setting of two, means that it should be stored close to the top of the list.
+(all actions with 1 and 0 set for priorities will be checked before this one).
+
+#action {^TICKCOUNTER: 5 seconds} {sleep} {0}
+Since this string is 'anchored', it will only be triggered if it starts at
+the beginning of a line.  If your mud has a tickcounter set up like this,
+this action will make you sleep at 5 seconds to tick.
+
+#action
+list all actions
+
+#action *tell*
+list all actions with the word 'tell' in them.
+
+One of the important usage of action's priority is:
+Suppose u have:
+  #action {dangerous_message} {quit}
+Then u see this message:
+  XXX tell you: dangerous_message
+To avoid the confusion, u can add another higher priority action:
+  #action {tell you: } {#nop} {4}
+
+See also: #unaction, #ignore, #substitute, #presub, #toggle stripcolor, #message action
+
+~ALIAS
+
+format:     #alias [{word}] [{command(s)}]
+            #alias [word] [command]
+
+the [] signify optional arguments.
+
+Define a word that actually means a longer string.  Useful for commands
+repeated often, or commands that are very lengthy.  You can have multiple
+commands aliased to a single word, if you enclose the alias in {}.
+
+If the command(s) include variables %0-9, these are substituted as part
+of the parsing.  %0 is set to all text after the word was input, %1 is set
+to the first word following the aliased word, and %2 is the second, and so on.
+
+If the #alias command is typed without any arguments, all aliases defined will
+be listed.
+
+If the #alias command is typed with only 1 argument, occurrences matching the
+input string are shown.  The * character is valid in this word to act as a
+'wildcard'.  See help wildcard.
+
+examples:
+#alias gb get bread bag
+typing gb at the prompt would be sent as 'get bread bag'.
+#alias ws {wake;stand}
+since ws aliases a multiple command, you must use the braces.
+#alias heal cast 'heal' %1
+typing 'heal valgar' at the prompt would be sent as 'cast 'heal' valgar' since
+it will put the word valgar into %1
+#alias
+list all aliases
+#alias he*
+list all aliases that start with the letters 'he'
+
+See also: #unalias, #al2variable, #var2alias, #message alias
+
+~AL2VARIABLE
+
+format:     #al2var {variable_to_assigne} {alias_to_convert}
+
+example:    #alias test_alias {tell chitchat hi;tell chitchat question}
+            #al2var test_var test_alias
+Then the variable test_var is now: {tell chitchat hi;tell chitchat question}
+Useful for process the alias, then after process, convert variable to alias.
+
+See also: #var2alias, #variable, #alias
+
+~ALL
+
+format:      #all {string}
+             #all string
+
+Send a command to all active sessions.
+
+example:
+#all {shout I'm multicharing!}
+
+See also: #session
+
+~ANTISUBSTITUTE
+
+format:      #antisubstitute {string}
+             #antisubstitute string
+
+Will cause any line that contains the string specified to not be checked for
+substitutes and gags.  The ^ char starting a string will tell the client to
+only antisubstitute lines that START with the string specified.
+
+examples:
+#antisub {^You}
+any line starting with 'You' will not be checked for subs.
+#antisub {^You%0hit.}
+lines that start with 'You', and also contain 'hit.' will not be subbed.
+#antisub {annihilate}
+any line that contains the word 'annihilate' will not be subbed.
+
+See also: #substitute
+
+~BELL
+
+format:       #bell [level=5]
+							#bell threshold [threshold]
+
+sends a beep to your terminal when level>=threshold.
+default level and threshold are all 5.
+
+              #bell option [option] [frequency] [duration]
+This option is for windows only: 0: soundcard, 1: speaker.
+For speaker, user can specify the frequency (all) and duration (not for 95/98/Me) of the beep.
+
+example:
+#action {tells you} {#bell}
+#action {you are in danger!!!} {#bell 9}
+In normal case, both action will chime you.
+
+Now you only want the 2nd case to send u a beep:
+#bell threshold 6
+Since #bell == #bell 5 is below the threshold 6, only
+the second action will send a real beep.
+
+~BOSS
+
+format:       #boss [passwd]
+
+Unix: puts some fake text on your screen so nobody knows you're mudding.
+Windows: will hide all the yTin windows and the windows that you specified
+  in View/Options menu. If add passwd, u need the same passwd to re-open
+  all the hidden windows later.
+  Default hehavior is send #boss command when ESC is hit.
+  If one wants to add a hot key to send #boss some-command, use macro.
+
+See also: #macro
+
+~CHAR
+
+format:       #char character
+
+lets you redefine your tintin_character, the character that starts all commands.
+
+example:
+#char /
+all commands must then start with a /, instead of a #.
+
+If you load a script file, the first character of the file is set to your tintin char.
+
+See also: #verbatim
+
+~CHR
+
+format:       #chr {string} {number}
+
+Note: this command is from Perl.
+
+example:
+#chr {ctrlG} {7}
+This will assign ascii char 7 to variable ctrlG, when u send out
+$ctrlG, u actually send out a beep (^G).
+
+another example:
+#chr {_ESC} {39}
+#var {_RED} {${_ESC}[31m}
+
+This will assign 27 (Escape key, or ^[) to variable _ESC,
+and assing ^[[33m, which is ansi color of RED, to variable _RED.
+
+See also: #ord
+
+~CR
+
+format:              #cr [option]
+
+Without option, it sends a carriage return to the session.
+Useful for aliases that needs carriage returns.
+
+With the option as 0-3, it sets the terminating string of each line
+sent to MUD. Default of yTin is now 0("\n"). (Save 1 byte of net traffic?)
+Available options are: 0("\n") 1("\r") 2("\r\n") 3("\n\r") .
+
+Another usage is: #cr ?
+This shows what is current settings now.
+
+NOTE: If you want to edit some file in some versions of MudOS (suppose you are a wizard),
+make sure to use #cr 2 change to TinTin++'s default.
+
+See also: #raw
+
+~CTOI
+
+(For Chinese GB code only)
+format:              #ctoi {x} {y}
+
+converts chinese GB code y to digits.
+Later version will also converts chinese direction
+east/west et al to e,w,s,n,... (not implemented yet)
+Can be disabled in compile option. (get rid of "-DCHINESE" flag)
+#example: #ctoi {x} {三千四百五十一}
+x will be 3451
+
+See also: #variable, #math
+
+~DECRYPT
+format:       #decrypt <string>
+
+Decrypt the password encrypted with the command #encrypt, it is just
+a simple protection.
+
+Example:
+          #encrypt security
+Ytin will show you the string: LY,[CC7ZLIH
+Now you can relatively safely store your password in your tintinrc file:
+          #var passwd {LY,[CC7ZLIH}
+When the MUD ask you for password, u can type (mostly using #action):
+          #decrypt $passwd
+yTin made some effort to forbid any future use of #decrypt in the same
+session later. (note: the effort here is just to forbid others to
+know your exact password and/or change your password, if you write your
+password into tintinrc file, others can still login using your script
+if they got the file.)
+
+See also: #encrypt
+
+~DELIMITER
+
+format:       #delimiter [<string>]
+
+specify the delimiter string for splitting the items, default is " " (space)
+
+See also: #getlistlength, #getitemnr, #forall
+
+~ECHO
+
+format:       #echo
+
+Obsoleted by #toggle echo.
+
+Echo is used to see what actions are being triggered.  #echo toggles this
+feature on and off.
+
+See also: #toggle echo, #action
+
+~ENCRYPT
+
+format:       #encrypt <password>
+
+yTin will show you the encrypted password.
+
+See also: #decrypt
+
+~END
+
+format:       #end
+
+Unix: terminate tintin++ and return to unix.  On most systems, ctrl-C has the same
+effect.
+Windows: Try to avoid this command unless have to, buggy in some occasion.
+
+See also: #zap
+
+~FCLOSE
+
+format:       #fclose {FILE}
+
+FILE is $_ from #fopen.
+the variable _ is assigned to 0 if successful, non-zero if failed.
+
+See help on C function: int fclose(FILE* stream);
+See also: #fopen/#fclose, #feof, #fseek, #fgets, #fputs, #fread, #fwrite, #remove, #rename, #sysecho
+
+~FEOF
+
+format:       #feof {FILE}
+
+FILE is $_ from #fopen.
+The variable _ is assigned to 1 if end of file or invalid FILE, otherwise 0.
+
+See help on C function: int feof(FILE* stream);
+See also: #fopen/#fclose, #feof, #fseek, #fgets, #fputs, #fread, #fwrite, #remove, #rename, #sysecho
+
+~FGETS
+
+format:       #fgets {buffer} {int limit} {FILE}
+
+FILE is $_ from #fopen.
+The variable _ is set to 0 if fail, non-zero if successful.
+If n>=2048, n will be reduced to 2048.
+
+See help on C function: char *fgets( char *string, int n, FILE *stream );
+See also: #fopen/#fclose, #feof, #fseek, #fgets, #fputs, #fread, #fwrite, #remove, #rename, #sysecho
+
+~FORALL
+
+format:       #forall {list} {command}
+
+Note:         this command is modified since v1.82b3, to be able to change
+              delimiter, as a result, default delimiter changed from "," to " ".
+Example:      if delimiter is still default " ",
+              #forall {monster devil {mighty knight} target} {kill %0}
+  will be same as: kill monster;kill devil;kill mighty knight;kill target
+              #delim {,}
+							#forall {a,b,c c,d} {#show %0}
+  will show "a", "b", "c c" and "d".
+
+See also: #delim, #geti, #getl
+
+~FPUTS
+
+format:         #fputs {string} {FILE}
+
+FILE is $_ from #fopen.
+The variable _ is set to a non - negative number on success, or -1 on error.
+string length is limited to 2048.
+
+See help on C function: int fputs(const char *s, FILE *stream);
+See also: #fopen/#fclose, #feof, #fseek, #fgets, #fputs, #fread, #fwrite, #remove, #rename, #sysecho
+
+~FOPEN
+
+format:       #fopen {filename} {mode}
+The variable _ is assigned to a FILE pointer that was opened if successful, 0 if failed.
+
+Example:      #fopen {test.dat} {a+}
+              #var {FilePointer} {$_}
+              ... ...
+              #fclose {$FilePointer}
+
+For detailed help on the fopen, see the C help file on:
+           FILE *fopen( const char *filename, const char *mode );
+
+See also: #fopen/#fclose, #feof, #fseek, #fgets, #fputs, #fread, #fwrite, #remove, #rename, #sysecho
+
+~FREAD
+
+format:         #fread {buffer} {1} {length) {FILE}
+
+FILE is $_ from #fopen.
+The variable _ is set to the number of items successfully read.
+
+If an error occurs, or the end-of-file is reached, the return
+value is a short item count (or zero).
+fread does not distinguish between end-of-file and  error
+
+length is limited to 2048.
+
+See help on C function: size_t  fread(  void *ptr, size_t size, size_t nmemb, FILE *stream);
+
+See also: #fopen/#fclose, #feof, #fseek, #fgets, #fputs, #fread, #fwrite, #remove, #rename, #sysecho
+
+~FSEEK
+
+format:       #fseek {FILE} {offset} {start_position}
+
+FILE is $_ from #fopen.
+start_position must be one of SEEK_CUR, SEEK_END, SEEK_SET.
+The variable _ is set to 0 if successful, non-zero on fail.
+
+See help on C function: int fseek( FILE *stream, long offset, int origin );
+See also: #fopen/#fclose, #feof, #fseek, #fgets, #fputs, #fread, #fwrite, #remove, #rename, #sysecho
+
+
+~FUNCTION
+
+A new list type which I decided to call functions. These are a mixture of aliases and
+variables. The following examples will have to do to explain how to use functions:
+
+Example:
+#function {rnd} {#math temp ($_random//(%2-%1+1))+%1;#result {$temp};#unvar temp}
+#showme A random number between 0 and 100: @rnd{0 100}
+
+Functions are treated much like variables. Their value is
+a command-line which is executed, and the functions are substituted
+by the parameter last sent to the #result command
+
+Example:
+#function {lastfuncresult} {#nop}
+#showme Last use of a function gave @lastfuncresult as result.
+
+See also: #result, #unfunction
+
+~FWRITE
+
+format:         #fwrite {string} {1} {length) {FILE}
+
+FILE is $_ from #fopen.
+The variable _ is set to the number of items successfully written.
+
+If an error occurs, or the end-of-file is reached, the return
+value is a short item count (or zero).
+
+length is limited to 2048; you cannot write bytes that contains '\0' either.
+
+See help on C function: size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
+
+
+See also: #fopen/#fclose, #feof, #fseek, #fgets, #fputs, #fread, #fwrite, #remove, #rename, #sysecho
+
+~GAG
+
+format:        #gag {string}
+
+A shortcut for #substitute {string} {},
+Instruct yTin not to show any line that contains the string.
+
+NOTE: #toggle presub 0 or 1 will decide if substituted/gagged message will trigger actions.
+
+See also: #substitute, #presub, #action
+
+~GBfilter
+
+format:        #GBfilter [? | 0 | {string}]
+
+Only for GB chinese code. Filters the "string" between chinese characters.
+Common use is: #GBfilter { }
+
+NOTE: Might be obsolete after a universal "filter" command is implemented.
+
+See also: #ctoi
+
+~HELP
+
+format:       #help [command]
+
+get a listing of commands, or get help and a specific command.
+
+~HIGHLIGHT
+
+format:       #highlight [{type}] [{string}]
+              #highlight [type] [{string}]
+
+The [] signify optional arguments.
+
+The higlight command is used to allow you to highlight strings of text from
+the mud.  The possible types are bold, reverse, faint, italic, blink, or
+a number between 1 and 8.  The numbers correspond to colors 1 through 8
+of your color pallette.
+
+New to v1.5, you can now use the color names as well as the old convention of
+#'s for colors.  Valid color names include:
+
+red, blue, cyan, green, yellow, magenta, white, grey, black, brown, charcoal,
+light red, light blue, light cyan, light magenta, light green, b red, b blue,
+b cyan, b green, b yellow, b magenta, b white, b grey, b black, b brown,
+b charcoal, b light red, b light blue, b light cyan, b light magenta,
+b light green, bold, faint, blink, italic, reverse
+
+The %0-9 variables can be used as 'wildcards' that will match with any text.
+They are useful for highlighting a complete line.
+You may start the string to highlight with a ^ to only highlight text
+if it begins the line.
+
+Note: This command is only compatible with ANSI/VT100 terminals or emulators.
+
+examples:
+#high {reverse} {Valgar}
+print every occurrence of 'Valgar' in reverse video
+#high {6} {%0tells you%1}
+print every complete line that contains 'tells you' in color 6
+#high bold {^You}
+boldface any 'You' that starts a line
+#high {red, blink} {Grimne}
+each time the word Grimne appeared, it's be shown in a blinking red color.
+
+~HISTORY
+
+format:        #history
+
+The history command will display a listing of the most recent keyboard
+input.
+
+Example, when you type #his, yTin will show:
+ 0 #help verb
+ 1 #cr ?
+ 2 test
+ 3 help
+ 4 say yes?
+ 5 reply no
+ 6 #his
+Then !3 will send "help" to mud, !1 will send "#cr".
+You can also type "!sa", this will search back and send "say yes?".
+
+~IF
+
+format:        #if {conditional} {command(s)}
+               #if {conditional} {command(s)} else {else-command}
+
+The if command is one of the most powerful commands added since TINTINv3.
+It works similar to an if statement in other languages, and is loosely based
+on the way C handles its conditional statements.  When an if command
+is encountered, the conditional statement is evaluated, and if TRUE
+(any non-zero result) the command(s) are executed; if FALSE (0), the else-command
+will be executed if there is "else {else-command}" followed.  The if statement is
+only evaluated if it is read, so you must nest the if statement inside
+another statement (most likely an action command).  The conditional is
+evaluated exactly the same as in the math command, only instead of storing
+the result, the result is used to determine whether to execute the
+command(s).  '#help math' for more information.
+
+New: #if now also compares string, so the #ifstrequal command is obsolte.
+The string comparison is marked in [ ] pair.
+
+examples:
+#action {%0 gives you %1 gold coins} {#if {%%1>5000} {thank %%0}}
+if someone gives you more than 5000 coins, thank them.
+
+the %%1 and %%0 belong to the action, and not to the if, and that is why
+the double % are needed.
+RULE: each { } pair will need one more % to match.
+
+#action {^<hp:%0 } {#if {%%0<100} {flee}}
+If your status prompt is of the form <hp:100 ma:50 mo:100>, this action
+will get your hit points, compare them to 100, if less than 100, flee
+
+#alias {walk} {#if {[%%0=1]}{#4 s;#2 e;enter};#if {[%%0=2]}{out;#2 w;#4 n};#if {[%%0=] || [%%0=help]}{#show 1: From camp to city, 2: From city to camp}}
+
+See also: #math, #ifexist, #ifmatch
+
+~IFEXIST
+
+format:        #ifexist {var_name} {command-1}
+               #ifexist {var_name} {command-1} else {command2}
+
+This checks if the variable named "var_name" exists.
+
+Example:       #ifexist {food} {eat $food} else {eat bread}
+               #ife {leader} {say My leader is $leader!} else {say I have no leader!}
+
+See also: #if, #ifmatch, #variable, #unvariable
+
+~IFMATCH
+
+Command: ifmatch - checks a string for a mask containing text and *'s
+
+Syntax:  #ifmatch {mask} {string} {do this} else {do this instead}
+
+Example: #ifm {*Iny*} {This is a test string: Iny!} {#shomwe Works fine!} else {#showme Call 911 - the procedure doesn't work!}
+
+See also: #if, #ifexist
+
+~IGNORE
+
+format:        #ignore
+
+Toggle actions on and off. If off, no actions will be checked for.
+Same as #toggle ignore, this command won't be obsolte.
+
+NEW: ignore now sets absolute value:
+     #ignore 1        set actions off
+     #ignore 0        turn actions on
+
+See also: #action
+
+~INFO
+
+format:          #info
+
+Displays the number of actions, aliases, variables, substitues,
+antisubstitutes, and highlights for the current session.  If no session
+is active, then the statistics on the defaults are given.
+
+~KILLALL
+
+format:                #killall
+
+Killall deletes all aliases, actions, subs, antisubs, highlights, variables
+in one fell swoop.  Useful now, so you don't have to exit yTin to
+load up a new coms file.
+
+~LOG
+
+format:        #log {filename} [{option}]
+
+Log messages in/out of the session to a file, if the file is in a directory
+other than current, #log will try to create the last layer of directory for you.
+Suggestion: always use an empty #log command to stop previous log event, except
+            for multiple logs (since 1.83d1)
+
+Example (multiple logs support since version 1.83d1):
+#log 1.log            <== #OK. LOGGING..... (RAWMODE=0)
+#log 2.log +          <== #OK. LOGGING..... (RAWMODE=0 APPEND) -- log appended to file
+#log ?                <== #FILES BEING LOGGED: 1.log, 2.log.
+#log 1.log -          <== #LOG FILE "1.log" IS NOW OFF.
+#log                  <== #OK. ALL LOGGINGS TURNED OFF.
+#log 1.raw 1          <== #OK. LOGGING..... (RAWMODE=1) -- logs TELNET sequence as well
+#log 2.raw 1+         <== #OK. LOGGING..... (RAWMODE=1 APPEND) -- guess ;-)
+
+See also: #sysecho
+
+~LOOP
+
+format:        #loop {start,finish} {command(s)}
+
+Like a for-next loop, will loop from start to finish incrementing or
+decrementing by 1 each time through.  The value of the loop variable is
+places in %0, and can be used in the command(s).  If start>finish, it will
+loop backwards.
+
+examples:
+#loop {1,3} {get all %0.corpse}
+equivalent to the following:
+  get all 1.corpse;get all 2.corpse;get all 3.corpse
+#var n 3
+#loop {$n,1} {drop %0.key}
+equivalent to
+  drop 3.key;drop 2.key;drop 1.key
+
+See also: #forall
+
+~MACRO
+
+format:        #macro {keycode1, keycode2} {macro_to_be_done}
+               #macro 1
+
+Example:
+#macro {67, 47} {go west}
+#macro {24, 47} {go east}
+1st line means when Numlock, press '7' on Numpad will send go west,
+2nd line means when nun-unlock, press '7' on Numpad will send go east.
+Currently Alt/Ctrl/Shift states are not detected.
+
+#macro 1   ==> dynamicly test the keycodes for the key u pressed,
+               press ESC key to back to normal mode.
+
+See also: unmacro
+ps: Macros under unix is underway (thinking about compatibility with Windows).
+
+See also: #boss
+
+~MAP
+
+format:        #map {direction}
+
+Will add a direction to the end of the current path.  Useful for mapping
+while following someone.
+
+example:
+
+#action {$leader leaves %0.} {#map {%%0}}
+if the person stored in $leader leaves the room, the direction is added
+to the end of the path.
+
+
+~MARK
+
+format:        #mark
+
+Clear the path list and start the new path at your current location.
+
+~MATH
+
+format:        #math {variable} {expression}
+
+Performs math functions and stored the result in a variable.  The math
+follows a C-like precedence, as follows, with the top of the list having
+the highest priority.
+
+Operators                    Function
+------------------------------------------------
+!                            logical not
+------------------------------------------------
+//                           modulate (% in most languate, we use // to avoid confusion with variables)
+/                            integer divide
+*                            integer multiply
+------------------------------------------------
++                            integer addition
+-                            integer subtraction
+------------------------------------------------
+>                            greater than (result is non-zero or zero)
+>=                           greater than or equal (result is non-zero or zero)
+<                            less than (result is non-zero or zero)
+<=                           less than or equal (result is non-zero or zero)
+= or ==                      equals (result is non-zero or zero)
+!=                           not equal (result is non-zero or zero)
+------------------------------------------------
+& or &&                      logical and (result is non-zero or zero)
+| or ||                      logical or (result is non-zero or zero)
+------------------------------------------------
+Note: currently &, | are logic and/or, but please use && and ||, future version
+might make &, | to bitwise and/or.
+
+True is any non-zero number, and False is zero.  In the expression, you may
+use T and F as true and false.  Parentheses () have highest precedence,
+so inside the parentheses is always evaluated first.
+
+examples:
+#math {heals} {$mana/40}
+Assuming there is a variable $mana, divide its value by 40 and store the
+result in $heals.
+#action {^You receive %0 experience} {updatexp %0}
+#alias updatexp {#math {xpneed} {$xpneed-%%0}}
+Let's say you have a variable which stores xp needed for your next
+level.  The above will modify that variable after every kill, showing
+the amount still needed.
+
+See also: #variable, #if
+
+~MESSAGE
+
+format:        #message {type}
+
+This will toggle off and on the messages dealing with a certain type of
+command.  The possible message types are "aliases", "actions", "substitutes",
+"antisubstitutes", "highlights", "variables",	"pathdir", "read", and "delimiter".
+This is very helpful if you are using #math and #if, and setting a lot of
+variables, so you don't keep getting the Variable Set messages.
+
+example:
+#message {variable}
+toggles whether messages dealing with variables will be shown.
+#message {variable} {1}
+toggles it to be TRUE.
+
+See also: #action, #variable, ...
+
+~NOP
+
+format:        #nop [string]
+
+A null operation, is ignored by the client.  It is useful for commenting
+in your coms file, any text after the nop and before a semicolon or
+end of line is ignored.
+
+example:
+#nop This is the start of my autoactions
+#ifexits {myvar} {#nop} else {#var myvar 0}
+
+~ORD
+
+format:        #ord {variable} {string}
+
+Note: this name is from similar Perl function.
+
+Converts the 1st character of string to its ascii code and assign it
+to variable. See similar Perl function ord().
+
+See also: #chr
+
+~PING2
+
+format:        #ping2 [0]
+
+Pseudo ping, using telnet sequence TIMING(0x06).
+#ping 0 to force reset upon network timeout.
+
+Note: MudOS and most Unix hosts support it. Some MudOS needs to send a "\n" after that.
+#ping2 not work with some Mud that does not implement some basic telnet response,
+as an alternate, use system pseudo variable $_msec and some self-made actions to
+do similar work.
+
+Example:
+#al PING2 {#ping2;#al ping2Act #nop;#al ping2Act %0;#act {^#TELNET PSEUDO PING RESPONSE: %0 ms}{#unact {^#TELNET PSEUDO PING RESPONSE: %0 ms};#var ping2 $0;ping2Act}}
+
+#al riskyAction1 {PING2 {#if {$ping2<300}{#bell;#show HERE WE GO!;some-action...} else {#show TOO LAG, LET'S PLAY SAFE}}}
+
+See also: #telnet
+
+~PATH
+
+format:        #path
+
+Show your current path.
+
+~PATHDIR
+
+format:               #pathdir {odd_dir} {what speedwalk should interpret it as}
+
+New for v1.5, this command will allow those player who play on muds that
+have diag./odd directions to use speedwalk.
+
+example:
+#pathdir {nw} {nw}
+each time {nw} is excountered in the speedwalk, tintin++ will send a {nw} to
+the mud.
+
+~PAUSE
+format: #pause [{seconds}]
+
+Description:  This command will toggle specify pause mode.
+     Example:
+     #pause       <= show the current pause mode
+     #pause 0     <= toggle pause mode to OFF
+     #pause 0.5   <=  each command written to mud are buffered, sending
+                      out in 0.5 seconds interval
+See also: #sleep, #purge, #slow
+
+
+~PRESUB
+
+format:        #presub
+
+Toggle whether actions are processed before substitutes, or after.  With
+presub on, actions are performed on the substituted buffer, and if
+you are gagging heavily, it will increase the speed of execution.
+There are also many times you don't want to check for actions on
+lines you have gagged, and this will allow that.
+
+See also: #action, #substitute, #gag
+
+~PURGE
+
+format: #purge
+
+This will purge all pending commands that will otherwise
+send to mud by using #pause or #sleep command.
+
+Example:
+#purge             <== same as #purge 1
+#purge 1           <== DEFAULT, clear the pending commands due to
+                       #pause, #slow and #sleep (0x01)
+#purge 2           <== clear the pending commands due to
+                       #pause, #slow and #sleep2 (0x02)
+#purge 3           <== 0x03 = 0x01+0x02, clear the pending commands due to
+                       #pause, #slow, #sleep (0x01) and #sleep2 (0x02)
+#purge 0           <== clear the pending commands due to #pause, #slow
+
+See also: #pause, #slow, #sleep, #sleep2
+
+~PURIST
+
+format: #purist
+
+This currently works for Windows version or split mode under Unix version.
+Disable the default "local echo" mode. Commands typed will not show locally.
+
+See also: #unpurist
+
+~RAW
+
+format:        #raw
+
+usage:         #raw test          <= send "test" without newline appended
+example:       #func chr {#chr _ {%%0};#res $_}
+							 #raw @chr{4}       <= will send ctrl-D (^D 的十进制 ascii 码是 4)
+               #raw @chr{27}      <= will send ESC
+               #raw @chr{1}d      <= send ctrl-A, d ...
+see also:      #toggle raw
+
+~REDRAW
+
+format:        #redraw
+
+If redraw is on, and you're not in split mode, the input
+line will be redrawn when any text arrives, or tintin++ prints any
+messages.  This helps you avoid your input being spread out and
+unreadable when there is heavy text flow from the mud.  In split mode,
+this variable is ignored.
+
+~REMOVE
+
+format:        #remove {filename}
+
+Delete a file.
+Variable _ is assigned 0 if the file is successfully deleted; otherwise set to -1.
+
+See help on C function: int remove( const char *path );
+
+See also: #fopen/#fclose, #feof, #fseek, #fgets, #fputs, #fread, #fwrite, #remove, #rename, #sysecho
+
+~RENAME
+
+format:        #rename {filename_old} {filename_new}
+
+Rename a file or directory.
+variable _ is set to 0 if it is successful, set to non-zero on error.
+
+See help on C function: int rename( const char *oldname, const char *newname );
+
+See also: #fopen/#fclose, #feof, #fseek, #fgets, #fputs, #fread, #fwrite, #remove, #rename, #sysecho
+
+~RETAB
+
+format:                #retab [tab_file]
+
+#retab allows you to re-load the tab completion file, default is tab.txt.
+
+See also: #tabadd, #tabdelete, #tablist, #tabsave, tab.txt
+
+~RETURN
+
+format:        #return
+
+Pop the last move off the top of the path, and move the opposite direction.
+
+~READ
+
+format:        #read {filename}
+            or #read filename
+
+Reads a script/coms file into memory.  The coms file is merged in with the
+currently loaded commands.  Duplicate commands are overwritten.
+
+See also: #message read
+
+~SAVEPATH
+
+format:        #savepath {alias name}
+
+Save the current path to an alias, which can then be saved to a coms file.
+The alias name provided will be the new name of the alias to represent
+that path.  Useful for after mapping to be able to get back to the place
+again.
+
+~SESSION
+
+format:        #session {session_id} {ip port}
+               #session {session_id}
+               #session
+
+Use this command to connect to mud, or show sessions already on.
+
+example:
+    #session {temp} {123.45.67.89 6666}
+This command will connect to 123.45.67.89 6666 with session_id "temp".
+Later if in any case session "temp" is not on the top, use #temp
+to bring it back.
+So it is recommended that do not use numbers as session_id since it
+conflicts with tintin's repeat command.
+
+When port is set to 0, instead of make a real connection,
+tintin++ create a dummy session connects to nowhere. This session is useful
+to keep auto-login, a feature lacked from tintin for long. In this case,
+the port field will be the 1st message shown when the dummy session was
+created.
+
+See also: #snoop
+
+~SHOWME
+
+format:        #showme {string}
+
+Display the string to the terminal, do not send to the mud.  Useful for
+status, warnings, etc.
+
+example:
+#action {%0 ultraslays you} {#showme {###### argh! we were ultraslayed ######}}
+
+#chr _ESC 27
+#al showg #showme {${_ESC}[32m%%0${_ESC}[2;37;0m}
+showg WHAT COLOR IS IT?             <== show message in green
+
+~SLEEP
+
+format: #sleep {seconds};other_commands
+
+Description: replace the hack of using #system sleep seconds
+to generate pauses. The advantages over #system sleep are:
+  1) seconds are nolonger limited by interger
+  2) the tintin will not hang for SECONDS
+  3) #purge command make it more flexible to use.
+NOTE: #10 {#10 practice;#sleep 3} won't work.
+      if one wants to do so, can: #alias aa {#10 practice;#sleep 3;aa},
+      ofcoz in real case shall add variable control for jump out of the loop.
+See also: #sleep2, #pause, #purge, #slow
+
+~SLEEP2
+
+format: #sleep {seconds};other_commands
+
+#sleep2 offers flexibility for controlling the queued jobs using the purging command.
+For example, one may want to some delayed commands not to be affected by #purge.
+#sleep2 is for this purpose. In the case one wants to force to purge the delayed
+commands from #sleep2, use #purge 2 (purges #sleep2) 
+or #purge 3 (purges #sleep and #sleep2).
+
+See also: #sleep, #purge
+
+~SLOW
+
+format: #slow {interger}
+#slow 0: disable SLOW mode
+
+#slow 1: means when the server give 1 response (net packet),
+the client will send one more commands. (Compare to zmud,
+zMud need users' action to determine if the client will continute
+to send more commands, but in yTin, this is done automatically,
+although the server response might not be what was generated
+by user's last command, in most case it is much easier to
+use and sufficient).
+
+#slow 5:
+will send 5 command from queue when sever gives 1 response.
+The benefit is: when net is lag, it sends
+commands much faster than #slow 1, which is very like zmud's
+behavior.
+
+See also: #purge, #pause, #sleep
+
+~SNOOP
+
+format:        #snoop {session name}
+
+If there are multiple sessions active, this command allows you to see what
+is going on the the sessions that are not currently active.  The lines
+of text from other sessions will be prefixed by 'session name%'.
+
+See also: #session
+
+~SPEEDWALK
+
+format:        #speedwalk [option]
+
+Toggle speedwalking on and off.  Speedwalking allows you to type multiple
+directions not seperated by semicolons, and now it lets you prefix a
+direction with a number, to signify how many times to go that direction.
+
+When #toggle speedwalk 2, speedwalk will be in smart option, i.e.,
+single nw, ne, sw, se, su, sd, ... will not be interpereted as n;w,
+n;e, s;w, s;e  ...
+
+example:
+without speedwalk:
+s;s;w;w;w;w;w;s;s;s;w;w;w;n;n;w
+with speedwalk:
+2s5w3s3w2nw
+
+NEW: replaced by #toggle speedwalk, example: #toggle speedwalk 0
+
+~SPLIT
+
+format:        #split {line #}
+               #split line #
+
+Unix: with a vt100 or ANSI emulator, this will allow you to set up
+a split screen.  The keyboard input will be displayed in the bottom window,
+while mud text is displayed in the upper window.  This requires a fairly
+decent emulator, but works on most I have tested.  The screen will be split
+at the line indicated by line #, and should be around 3 lines above the
+bottom of the screen.  When the enter key is pressed, the text will
+be sent to the mud, and also be echoed to the upper window.
+
+If the line # is negative, the screen will be split that many lines above
+the bottom of the console.  This allows you to specify the height of the
+bottom window, while a positive line # lets you specify the height of the
+top window.
+
+If a line # isn't specified, the screen is split three lines above the
+bottom.
+
+examples:
+#split 35
+split the screen at line 35.
+#split -3
+split the screen three lines above the bottom.
+
+Note: split mode may mess up the scrollback buffer in some older terminal
+emulators.  It has been tested and is compatible with XTerm, RXVT and Apple
+Terminal.  It should be compatible with most modern emulators.
+
+~STRIPANSI
+
+format:       #stripansi {var1} {string2}
+
+Similar to #variable command, assign string2 to variable var1. In addition,
+#stripansi strips the ansi-code (colors et al) before assignment.
+
+See also: #variable, #toggle stripcolor
+
+~STRNCMP
+
+format:       #strncmp {string1} {string2} {interger N}
+
+Similar to C function strncmp(char* str1, char* str2, int n).
+Return value is 0 if string1 and string2 are same for the Nth beginning
+characters, nonzero if not same.
+
+See also: #strrchr, #strstr, #substr, #ord, #chr
+
+~STRRCHR
+
+format:       #strrchr {string1} {string2}
+
+Similar to C function strrchr(char* str, char ch).
+Reverse search of the 1st occurrence of char string2 (actually it is
+the 1st char of string2) in string1, then assign the 0 based
+index of string1 to the default variable $_.
+assign -1 to $_ if search does not match.
+(well, here we used some Perl convention.)
+
+See also: #strrchr, #strstr, #substr, #ord, #chr
+
+~STRSTR
+
+format:       #strstr {string1} {string2}
+
+Similar to C function strstr(char* str1, char* str2).
+Find the 1st occurence of str2 from str1, then return 0 based
+index of str1. Return value is assigned to $_.
+If there is no match, -1 is assigned to $_.
+
+See also: #strrchr, #strncmp, #substr, #ord, #chr
+
+~SUBSTR
+
+format:       #substr {string} {index1} {length}
+
+Similar to Perl function substr().
+Currently is not as smart as Perl yet. Need specify explicitly
+0 based index1 and length.
+When length is <0, will count from the tail.
+Return value is assigned to $_.
+
+example:
+#substr {01234567} {3} {4}
+will assign {3456} to $_.
+#substr {0123456789} {3} {-5}
+will assign {34} to $_ since the last 5 {56789} is truncated.
+
+Note: we do not need "strcat" command in yTin, #var {str1} {$str1$str2} will do it.
+
+See also: #strrchr, #strstr, #strncmp, #ord, #chr
+
+~SUBSTITUTE
+
+format:        #substitute [{text}] [{new text}]
+
+The [] signify optional arguments.
+
+Allows you to replace original text from the mud with different text, or
+delete it altogether.  This is helpful for if you have a slow modem, or
+there is a lot of text sent during battles, and the like.  the %0-9
+variables can be used to capture text and use it as part of the new output,
+and the ^ char is valid to only check the beginning of the line for the
+text specified.
+
+If a . is the only character in the new text argument, if the line is
+matched, it will be deleted.
+
+If only one argument is given, all subs that match the string are displayed.
+The * char is valid in this instance.  See help wildcard.
+
+If no argument is given, all subs are displayed.
+
+examples:
+#sub {leaves} {.}
+gag any line that has the word 'leaves' in it.
+#sub {^Zoe%0} {ZOE%0}
+any line that starts with the name Zoe will be replaced by a line that
+starts with 'ZOE'
+#sub {%0massacres%1} {%0MASSACRES%1}
+replace all occurrences of 'massacres' with 'MASSACRES'
+
+See also: #gag, #action, #presub
+
+~SYSTEM
+
+format:        #system {command} [{option}]
+
+Executes the command specified as a shell command.  The name of the system
+command can be changed in tintin.h for your security.
+
+#system {command} {option}
+options: (default is 0)
+
+option 1: add "> tintin.out", then show the contents of tintin.out in yTin screen (can be
+actioned).
+option 0: do not apprend " > tintin.out" to cmdline, default TinTin++ style. Under unix,
+          this will show stdout, but will not be able to set action on the stdout.
+
+Notice: if use some commands like vi, please DONOT use option {1}.
+
+NEW from yTin1.82 (windows):
+#system perl {script.pl}
+This will try to call perl56.dll and will not show annoying DOS prompt.
+Limit: NO stdin/stdout/stderr yet, but one can always let the perl script write to
+a file, then use #sysecho to show on the screen, or #read/#textin to execute the
+command.
+
+See also: #sysecho, #syscat
+
+~SYSCAT
+
+format:        #syscat  {filename}
+
+This is a handy port for #system cat filename.
+It was not nice to use #system cat/type under Windows version; for portability
+of your scripts and speed, it is recommended that you use #syscat instead
+of #sys cat. (Plus: messages from #syscat will be actioned.)
+
+See also: #sysecho, #system
+
+~SYSECHO
+format:        #sysecho {string} {>}  {filename}
+               #sysecho {string} {>>} {filename}
+This is a handy port for #system echo string > filename.
+It was not nice to use #system echo under Windows version; for portability
+of your scripts and speed, it is recommended that you use #sysecho instead
+of #sys echo.
+
+#sysecho has another feature: if the filename contains directory info, it will
+try to create the last layer of directory for you.
+
+See also: #fclose/#fopen, #feof, #fseek, #fgets, #log
+
+~TABADD
+
+format:               #tabadd {word}
+
+Adds a word to the end of the tab completion list.
+
+See also: #tabdelete, #retab, #tablist, #tabsave, tab.txt
+
+~TABDELETE
+
+format:               #tabdelete {word}
+
+Deletes a word from the tab completion list.
+
+See also: #tabadd, #retab, #tablist, #tabsave, tab.txt
+
+~TABLIST
+
+format:               #tablist
+
+Displays all words in the tab completion list.
+
+See also: #tabadd, #tabdelete, #retab, #tabsave, tab.txt
+
+~TABSAVE
+
+format:               #tabsave [tab_completion_file]
+
+Save the current tab list into the tab completion file (default is tab.txt).
+
+See also: #retab, #tabadd, #tabdelete, #tablist
+
+~TELNET
+
+format:               #telnet {number}
+                      #telnet {telnet sequence symbol}
+Send the telnet sequence.
+
+Example:
+#telnet AYT         <== send AYT (are you there) to the host, MudOS will
+                          reply [-YES-], other hosts may vary
+#telnet ?           <== request help, advanced users c.f. telnet RFC for details
+
+See also: #ping2, #raw
+
+~TEXTIN
+
+format:                #textin {filename}
+
+Textin now allows the user to read in a file, and send its contents directly
+to the mud.  Useful for doing online creation, or message writting.
+
+#read will parse tintin commands and alias et al, and interprete the 1st char as
+TINTIN_CHAR, #textin will not do any parsing.
+
+See also: #read
+
+~TICK
+
+format:        #tick
+
+Show seconds until next tick.
+
+See also: #tickoff, #tickon, #tickset, #ticksize, #action
+
+~TICKOFF
+
+format:        #tickoff
+
+Turn off the tintin++ built in tick counter.
+
+See also: #tick, #tickon, #tickset, #ticksize, #action
+
+~TICKON
+
+format:        #tickon
+
+Turn on the tintin++ built in tick counter.
+
+Example:
+#ticksize 5
+#tickon
+#action {^#TICK!!!} {some-actions...}
+
+See also: #tick, #tickoff, #tickset, #ticksize, #action
+
+~TICKSET
+
+format:        #tickset
+
+Turn on the tintin++ tickcounter, and set time until next tick equal
+to tick size.
+
+See also: #tickoff, #tickon, #tick, #ticksize, #action
+
+~TICKSIZE
+
+format:        #ticksize number
+
+Set a new time, in seconds,  between ticks for the tintin++ tickcounter.
+
+See also: #tickoff, #tickon, #tickset, #tick, #action
+
+~TOLOWER
+
+format:        #tolower var text
+
+Just like the #variable command, only it converts the text
+to lowercase before assigning it to the variable.
+
+See also: #toLower, #toupper, #toUpper
+
+~toLower
+
+format:        #toLower var text
+
+Example:       #toLower v1 {ABCD EFG}          <== v1 is now {aBCD EFG}
+
+See also: #tolower, #toupper, #toUpper
+
+~TOGGLE
+
+format: #toggle {setting} [{absolute_value}]
+
+It is actually both toggle and set
+Available toggle settings:
+       #toggle big5         <= handles BIG5 encoding's problem
+       #toggle echo         <= same as #echo
+       #toggle ignore       <= same as #ignore
+       #toggle presub       <= same as #presub
+       #toggle prompt_on
+       #toggle raw          <= pernament interactive mode (windows version)
+                               see also: #raw, use windows menu to toggle off
+Note: when ESC is mapped to boss key, to send real ESC, use ctrl-[. Macroes
+      still works after toggle raw 1, alias only works for actions et al.
+      Interactive mode is temporarily off when no sessions.
+       #toggle redraw       <= same as #redraw
+       #toggle skiptelnetseq   <= by default, yTin handles most telnet sequence
+                              specified by telnet RFCs.
+               skiptelnetseq=1:  skip local/remote echo negotiation
+               skiptelnetseq=2:  skip termtype negotiation
+               more to come if needed ...
+               Example:  #toggle skiptelnetseq 3 (3=1+2) will skip termtype and echo negotiation
+       #toggle speedwalk    <= same as #speedwalk
+       #toggle stripcolor   <= toggle if stripcolor before action or not
+       #toggle ticker_in_split  <= disable the ticker on split line
+       #toggle tcp_nodelay  <= disable the Nagle algorithm (GOOGLE IT FOR TECH DETAILS)
+       #toggle togglesubs   <= same as #togglesubs
+       #toggle verbatim     <= same as #verbatim
+It is recommended to use #toggle command when it is available,
+in later version other old commands that can be replaced by toggle
+might be no longer available.
+
+~TOGGLESUBS
+
+format:        #togglesubs
+
+Toggle whether substitutes should be ignored.  If subs are ignored,
+text will not be checked for subs, but highlights will still be
+checked for.
+
+See also: #substitute, #highlight
+
+~TOUPPER
+
+format:        #toupper var text
+
+Just like the #variable command, only it converts each character in the text
+to uppercase before assigning it to the variable.
+
+See also: #toUpper, #tolower, #toLower
+
+~toUpper
+
+format:        #toUpper var text
+
+Example:       #toUpper v1 charlie          <== v1 is now {Charlie}
+
+See also: #toupper, #tolower, #toLower
+
+~UNACTION
+
+format:        #unaction {string}
+               #unaction string
+
+Remove action(s) from the action list which match {string}.  The
+'*' character will act as a wildcard and will match any text.
+See help wildcard.
+
+examples:
+#unaction {%0tells you%1}
+remove the action that is triggered by '%0tells you%1'
+#unaction *
+remove all actions
+#unaction {*massacre*}
+remove all actions that contain the word 'massacre'
+
+See also: #action, #message action
+
+~UNALIAS
+
+format:        #unalias {word}
+               #unalias word
+
+Remove alias(es) from the alias list which match {word}.  The
+'*' character will act as a wildcard and will match any text.
+See help wildcard.
+
+examples:
+#unalias {bbb}
+remove the alias 'bbb'
+#unalias *
+remove all aliases
+#unalias {*go*}
+remove all aliases that contain the fragment 'go'
+
+See also: #alias, #message alias
+
+~UNANTISUBSTITUTE
+
+format:        #unantisubstitute {string}
+               #unantisubstitute string
+
+Remove antisub(s) from the antisub list which match {string}.  The
+'*' character will act as a wildcard and will match any text.
+See help wildcard.
+
+examples:
+#unantisub {%0tells you%1}
+remove the antisub for '%0tells you%1'
+#unantisub *
+remove all antisubs
+#unantisub {^You*}
+remove all antisubs that start with '^You'
+
+See also: #antisubstitute
+
+~UNGAG
+
+format:        #ungag {string}
+               #ungag string
+
+Exactly the same as #unsubstitute, '#help unsubstitute' for info.
+
+See also: #gag, #unsubstitute
+
+~UNSUBSTITUTE
+
+format:        #unsubstitute {string}
+               #unsubstitute string
+
+Remove substitute(s) from the substitute list which match {string}.  The
+'*' character will act as a wildcard and will match any text.
+See help wildcard.
+
+examples:
+#unsub {%0tells you%1}
+remove the sub for '%0tells you%1'
+#unsub *
+remove all subs
+#unsub {^You*}
+remove all subs that start with '^You'
+
+See also: #ungag, #substitute, #gag
+
+~UNHIGHLIGHT
+
+format:        #unhighlight {string}
+               #unhighlight string
+
+Remove highlight(s) from the highlight list which match {string}.  The
+'*' character will act as a wildcard and will match any text.
+See help wildcard.
+
+examples:
+#unhigh {%0tells you%1}
+remove the highlight for '%0tells you%1'
+#unhigh *
+remove all highlights
+#unhigh {^You*}
+remove all highlights that start with '^You'
+
+See also: #highlight
+
+~UNMACRO
+
+see also: #macro, #boss, #alias, #unalias
+
+~UNPATH
+
+format:        #unpath
+
+Remove the most recent move from the current path.
+
+See also: #path
+
+~UNPURIST
+
+format: #unpurist
+
+This currently works for Windows version or split mode under Unix version.
+Enable the default "local echo" mode. Commands typed will show locally.
+
+See also: #purist
+
+~UNSPLIT
+
+format:        #unsplit
+
+Exit split mode, and set the screen back to its default terminal settings.
+
+See also: #split
+
+~UNVARIABLE
+
+format:        #unvariable {variable name}
+               #unalias variable name
+
+Remove variable(s) from the variable list which match {variable name}.  The
+'*' character will act as a wildcard and will match any text.
+See help wildcard.
+
+examples:
+#unvar {hp}
+remove the variable $hp
+#unvar *
+remove all variables
+#unvariable {xx*}
+remove all variables that start with 'xx'
+
+See also: #variable, #message variable
+
+~VARIABLE
+
+format:        #variable {<variable_name>} {<text to fill variable>}
+
+There are a few kind of variables for your convenience:
+default variable _: it is used to hold some return values of function like
+    commands. Example: #strlen {abcd}, after that, $_ is 4.
+local variables:  regular variables that does not begin with _. (exception:
+    default variable _ is local variable.)  example: $v1, $v2{$u}, ${Tom Clap}
+global variables: variables that begin with _ and longer than 1.
+    Example: _id is shared by all sessions in the same yTin window. It is
+    useful to pass variables between sessions and/or keep variable when one
+    session died.
+pseudo/system variables:
+    _random: a random number from 0-MAXRANDOM.
+    _clock:  time in seconds since Jan 1, 1970.
+    _time/time:   time in seconds, since this copy of yTin started running.
+    _msec:   time in milli-seconds, since this copy of yTin started running.
+    HOME:    the $HOME environment under Unix/Windows
+  The reason call it pseudo variable is: #variable command does not show it correctly, and you cannot overwrite the value. Whenever this variable get parsed, it will be the system value. For example, "#var HOME" does not show there is a variable "HOME", while "#showme $HOME" will show the correct value.
+
+Since these are completely new to tintin, and act differently
+than anything else, I feel should spend some time on them.
+These variables differ from the %0-9 in the fact that you could
+specify a full word as a variable name, and they stay in memory for
+the full session, unless they are changed, and they can be saved in
+the coms file, and can be set to different values if you have 2 or
+more sessions running at the same time.  One of the best uses for
+variables I think is for spellcasters.
+
+Currently, you would set up a bunch of aliases like the following.
+
+#alias {flame} {cast 'flame strike' %0}
+#alias {flash} {cast 'call lightning' %0}
+#alias {harm} {cast 'harm' %0}
+
+With the new variables you can do the following:
+
+#alias {targ} {#var target %0}
+#alias {flamet} {flame $target}
+#alias {flasht} {flash $target}
+#alias {harmt} {harm $target}
+
+these aliases will be  defined just as they are written, the variables
+are not substituted  for until the  alias is found  in your input  and
+executed.
+
+so, if before a battle, you do a:
+targ donjonkeeper
+then $target is set to donjonkeeper, and any alias you set up with
+$target in it will substitute donjonkeeper for every instance of
+$target.  Let's say your leader has the following alias set up.
+
+#alias {setttarg} {#var {target} {%0};gt target=%0}
+
+if he did a settarg lich, it would set his $target to lich, and
+would send a:
+
+<name> tells your group 'target=lich'
+
+you could then set an action like so.
+
+#action {^%0 tells your group 'target=%1'} {targ %1}
+
+then when your leader executed his alias, it would also set your
+variable to the target.
+
+Another use for variables would be to set a variable $buffer to
+whoever the current buffer is.  This would be useful in fights
+where the mob switches, or where many rescues are needed.  You
+could set up healing aliases with $buffer in them, and set the
+$buffer variable in an action that is triggered by each switch,
+and each rescue, or just rescues, or whatever.  Then in a
+confusing battle, you will have a better shot at healing the
+right person.
+
+See also: #math, #var2alias, #unvariable
+
+~VAR2ALIAS
+
+format:        #var2alias {alias_to_assign} {$variable_to_convert}
+
+example:       #variable {hi} {good morning!}
+               #variable {test_var} {tell chitchat $hi;tell chitchat help}
+               #var2al {test_alias} {$test_var}
+Alias {test_alias} now is: {tell chitchat $hi;tell chitchat help}
+               #var2al {test_alias} {$test_var wanted!}
+Alias {test_alias} now is: {tell chitchat $hi;tell chitchat help wanted!}
+
+See also: #al2variable, #alias, #variable
+
+~VERBATIM
+
+format:        #verbatim
+
+Toggle verbatim mode on and off.  When in verbatim mode, text will not be
+parsed, and will be sent 'as is' to the mud.  Tab completion and history
+scrolling are still available in verbatim mode.  It is helpful for writing
+messages, doing online creation, and the like.
+
+Shortcut is the TINTIN_CHAR, default is #, some others like to set it to . or /
+
+See also: #textin
+
+~VERSION
+
+format:        #version
+
+Show the version number of tintin++ that you are currently running.
+New from 1.80e3: will also force telnet terminal type.
+
+~WHILE
+
+format:        #while {CONDITION} {COMMANDS}
+
+Please be cautious not to create infinite loops. :D
+
+Example:
+#var {counter} {256} 
+#while {$counter > 1} {#showme {$counter} ; #math {counter} {$counter / 
+2}}
+
+
+~WIZLIST
+
+format:        #wizlist
+
+Lists the names of people who helped with with mudding, and with the client.
+If you feel your name should be here, let me know, so many people have
+contributed, and it's hard to name everyone.
+
+~WRITE
+
+format:        #write {filename}
+               #write filename
+
+Writes all current actions, aliases, subs, antisubs, highlights, and
+variables to a coms file, specified by filename.
+
+See also: #writesession
+
+~WRITESESSION
+
+format:        #writesession {filename}
+               #writesession filename
+
+Write all current actions, aliases, subs, antisubs, highlights, and
+variables that are specific to your current session to a file.  This
+means actions that were not defined when there was no session active.
+
+See also: #write
+
+~ZAP
+
+format:        #zap
+
+Kill your current session.  If there is no current session, it will cause
+the program to terminate.
+
+See also: #end
+
+~SUSPEND
+
+format:        #suspend
+
+Unix only (buggy?):
+Temporarily suspends tintin++ and returns you to your shell.  The
+effect of this command is exactly as if you had typed control-z.
+To return to tintin++, type "fg" at the shell prompt.
+
+~WILDCARD
+
+NOTE: #wildcard is not a TinTin command, this is just a help on using wildcard.
+format:        #command {regexp}
+
+You may use wildcards with certain commands such as #alias, #action,
+#substitute, #unalias, etc.  In commands like #alias, wildcards are
+only valid when you use exactly one argument.  Wildcards are always
+valid for commands like #unalias.  The only wildcard currently
+supported is *, which matches any string 0 or more characters long.
+The wildcard meaning of * may be escaped using the backslash, \.
+
+Examples:
+
+#action {*miss*}
+        shows all actions which contain the word miss in them
+#unaction {*miss*}
+        removes all actions which contain the word miss in them
+#unaction {\*\*\* PRESS RETURN:}
+        removes the action which triggers on the line *** PRESS RETURN:
+
+Many thanks to Spencer Sun for letting me steal some code for this...
+If anyone is interested in having full ls-style regexps, email me
+and maybe it'll be included in 2.0.
+
+
+~SETPROMPT
+
+format:         #setprompt {string}
+
+Unix:
+SetPrompt is a feature for split window mode (see #help split), which
+will take the status prompt from the mud, and display it on the status
+line of the split window.  You would define <string> the same way you
+would an action (see #help action).
+
+See also: #clearprompt
+
+Windows: setprompt set the string on the status_bar at the bottom of window.
+
+~CLEARPROMPT
+
+format:         #clearprompt
+
+Unix only:
+ClearPrompt will turn off the prompt display to the split window.
+
+See also: #setprompt
+
+~REVSTRING
+
+Command: revstring - reverses a string/stores it backwards
+
+Syntax:  #revstring {dest var} {string}
+
+Example: #revs myname Happy Iny <-- stores 'ynI yppaH' in the variable 'myname'
+
+
+~GETLISTLENGTH
+
+Command: getlistlength - returns the length of a list
+
+Syntax:  #getlistlength {dest var} {list}
+
+Example: #variable alignlist {1 2 3}
+         #getl Length {$alignlist}   <--- returns 3 in the Length variable
+Another Example:
+         #delimiter {;;}
+         #var list {n;e;s;;get all;n;;e;e;s}
+         #getl Length $list
+The delimiter ";;" breaks the $list into: {n;e;s}, {get all;n} and {e;e;s}
+three parts, thus Length variable is now 3.
+
+See also: #delimiter, #getitemnr
+
+~GETITEMNR
+
+Command: getitemnr - retrieves specified element from a list (NEW)
+
+Syntax:  #getitemnr {destination variable} {item number start from 0} {list}
+
+Example: #geti {dothis} {1} {smile {say Hi!} flip bounce}  <--- sets dothis to 'say Hi!'
+
+Example: #getl Length {$rndsocial};#math itemnr $_random//$Length;#geti temp {$itemnr} {$rndsocial};{$temp}
+         (will perform a random social from the 'rndsocial' list)
+Another Example:
+         #delimiter {;;}
+         #var list {n;e;s;;get all;n;;e;e;s}
+         #geti {item2} {1} {$list}
+The delimiter ";;" breaks the $list into: {n;e;s}, {get all;n} and {e;e;s}
+three parts, thus the {item2} variable is now: {get all;n}
+
+See also: #delimiter, #getlistlength
+
+~UNFUNCTION
+
+Command: unfunction - remove a function
+
+Syntax:  #unfunction {func name}
+
+See also: #function
+
+~RESULT
+
+Command: result - write a string to the function buffer
+
+Syntax:  #result {-result-}
+
+Example: #func {ctof} {#math result %0*9/5+32;{#result $result degrees fahrenheit};#unvar result}
+         #showme 30 degrees celsius equals @ctof{30}.
+
+Example: #func {ftoc} {#math result (%0-32)*5/9;{#result $result degrees celsius};#unvar result}
+         #showme 80 degrees fahrenheit equals @ftoc{80}.
+
+See also: #function
+
+~*EOF*

@@ -1,0 +1,12 @@
+#ifndef __RLVT100_PROTO__
+#define __RLVT100_PROTO__
+/* ../rlvt100.c */
+extern void save_pos(void);
+extern void restore_pos(void);
+extern void goto_rowcol(int row, int col);
+extern void erase_screen(void);
+extern void erase_toeol(void);
+extern void reset(void);
+extern void scroll_region(int top, int bottom);
+
+#endif // __RLVT100_PROTO__

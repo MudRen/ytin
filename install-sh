@@ -1,0 +1,90 @@
+#!/bin/sh
+# 
+# Install the tintin++ executable and help file.
+# 
+
+#strip tt++
+
+case "$1" in
+.|./)	;;
+*)	echo Moving tt++ to $1/ ...; mv tt++ $1/;;
+esac
+
+echo Copying the help file to $2/ ...
+cp support/.tt_help.txt.Z ~ 
+
+cat <<EOF
+
+In this version of tintin++, you need to have certain
+#pathdir commands in your .tintinrc for #path, #return, etc
+to work correctly.
+I will automatically make sure you have them; don't worry.
+
+EOF
+
+if [ '!' -f $HOME/.tintinrc ]
+then
+cat <<EOF
+I see you do not have a .tintinrc in $HOME.
+I will copy a default one for you which has the right commands in it.
+EOF
+cp support/.tintinrc $HOME/
+else
+if grep pathdir $HOME/.tintinrc >/dev/null
+then
+cat <<EOF
+I see you already have #pathdir commands in $HOME/.tintinrc.
+You should leave them in there.
+If you are using some other alias file with tintin++, please
+copy those #pathdir commands to your other alias files too.
+EOF
+else
+cat <<EOF
+I see you already have a .tintinrc, but you do not have
+any #pathdir commands in it.
+I will add the appropriate commands to your .tintinrc.
+EOF
+cat support/.tintinrc >>$HOME/.tintinrc
+fi
+fi
+
+cat <<EOF
+
+Your installation of tintin++ is now complete.
+If you have any questions, problems, or comments,
+you may email us at the address listed in the README,
+or type ./gripe from the src/ directory.
+
+Enjoy!			-- The tintin++ development team
+EOF
+exit 0
+
+
+
+# This stuff is old, and I rewrote it; no need to use it.
+# I don't know why I don't just delete it.
+
+echo "Copying the tintin++ help file to \"$2\"..."
+if [ "$3" ]; then 
+  cp support/.tt_help.txt.Z "$2/"
+else
+  echo Uncompressing.
+  uncompress -c support/.tt_help.txt.Z | cat > "$2"/.tt_help.txt
+fi
+
+echo 
+echo "You'll have to do 1 thing before you continue with using tintin++."
+echo "Look over support/.tintinrc and notice the #pathdir's..  Either add" 
+echo "Them to your current .tintinrc in your home directory, or copy that"
+echo "file to your home directory with something like:"
+echo "cp support/.tintinrc ~"
+echo " "
+echo "If you have any questions, problems, or comments, you may email"
+echo "us at the address listed in the README, or type './gripe'."
+echo "and enter what your gripe is (This will get mailed to the Devel Team)"
+echo " "
+echo "Enjoy!!!"
+echo "--The tintin++ developement team"
+exit 0
+
+

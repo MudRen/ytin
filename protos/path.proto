@@ -1,0 +1,13 @@
+#ifndef __PATH_PROTO__
+#define __PATH_PROTO__
+/* ../path.c */
+extern void mark_command(struct session* ses);
+extern void map_command(const char *arg, struct session* ses);
+extern void savepath_command(const char *arg, struct session* ses);
+extern void path_command(struct session* ses);
+extern void return_command(const char *arg, struct session* ses);
+extern void unpath_command(struct session* ses);
+extern void pathdir_command(const char *arg, struct session* ses);
+extern void check_insert_path(const char *command, struct session* ses);
+
+#endif // __PATH_PROTO__

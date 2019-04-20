@@ -1,0 +1,21 @@
+#ifndef __PARSE_PROTO__
+#define __PARSE_PROTO__
+/* ../parse.c */
+extern struct session *parse_input(const char *input, struct session* ses);
+extern struct session *parse_command(const char* command0, char* arg, struct session* ses);
+extern int is_speedwalk_dirs(const char *cp);
+extern void do_speedwalk(const char *cp, struct session* ses);
+extern struct session *parse_tintin_command(const char *command, char *arg, struct session* ses);
+extern const char *get_arg_all(const char *s, char *arg);
+extern const char *get_arg_with_spaces(const char *s, char *arg);
+extern const char *get_arg_in_braces(const char *s, char *arg, int flag);
+extern const char *get_item_in_braces(const char *s, char *arg, int flag);
+extern const char *get_arg_stop_spaces(const char *s, char *arg);
+extern const char *get_item_stop_delimiter(const char *s, char *arg);
+extern const char *space_out(const char *s);
+extern const char *delimiter_out(const char *s);
+extern void write_com_arg_mud(const char *command, const char *argument, struct session* ses);
+extern void prompt(struct session* ses);
+extern struct session *do_one_line(char *line, struct session* ses);
+
+#endif // __PARSE_PROTO__

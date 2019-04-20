@@ -1,0 +1,9 @@
+#ifndef __RLHIST_PROTO__
+#define __RLHIST_PROTO__
+/* ../rlhist.c */
+extern int readline_echoing_p;
+extern void rlhist_show(void);
+extern void my_add_history(char *s);
+extern char *rlhist_expand(char *line);
+
+#endif // __RLHIST_PROTO__

@@ -1,0 +1,46 @@
+#ifndef __MISC_PROTO__
+#define __MISC_PROTO__
+/* ../misc.c */
+extern void raw_command(const char* arg, struct session* ses);
+extern void ping2_command(const char* arg, struct session* ses);
+extern void telnet_command(const char* arg, struct session* ses);
+extern void cr_command(const char *arg, struct session* ses);
+extern void version_command(char* buff);
+extern struct session *all_command(const char *arg, struct session* ses);
+
+/*these toggles may be considered to be redundant, chitchat*/
+extern void redraw_command(char* arg);
+extern void echo_command(char* arg, struct session* ses);
+extern void ignore_command(char* arg, struct session* ses);
+extern void presub_command(char* arg, struct session* ses);
+extern void togglesubs_command(char* arg, struct session* ses);
+extern void speedwalk_command(char* arg, struct session* ses);
+extern void verbatim_command(char* arg);
+/*end of toggles*/
+extern void toggle_command(const char *arg, struct session* ses);
+
+extern void bell_command(const char *arg, struct session* ses);
+extern void boss_command(const char *arg, struct session* ses);
+extern void cd_command(const char *arg, struct session* ses);
+extern void char_command(const char *arg, struct session* ses);
+extern void end_command(const char *command, struct session* ses);
+extern void encrypt_command(const char *arg, struct session* ses);
+extern void decrypt_command(const char *arg, struct session* ses);
+extern void showme_command(const char *arg, struct session* ses);
+extern void loop_command(const char *arg, struct session* ses);
+extern void while_command(const char *arg, struct session* ses); /* for #while - vastheman 2002-08-05 */
+extern void message_command(const char *arg, struct session* ses);
+extern void snoop_command(const char *arg, struct session* ses);
+extern void system_command(const char *arg, struct session* ses);
+#ifdef _WINDOWS
+extern void system2_command(const char *arg, struct session* ses);
+#endif
+extern void sysecho_command(const char *arg0, struct session* ses);
+extern void syscat_command(const char *filename0, struct session* ses);
+extern struct session *zap_command(struct session* ses);
+extern void wizlist_command(struct session* ses);
+extern void display_info(struct session* ses);
+extern void setprompt_command(const char *arg, struct session* ses);
+extern void macro_command(const char *arg, struct session* ses);
+
+#endif // __MISC_PROTO__

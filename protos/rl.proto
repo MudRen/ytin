@@ -1,0 +1,34 @@
+#ifndef __RL_PROTO__
+#define __RL_PROTO__
+/* ../rl.c */
+extern int ignore_interrupt;
+extern int am_purist;
+extern int requested_scrsize;
+extern void tintin_puts2(const char *cptr, struct session* ses);
+extern struct session* tintin_puts(const char *cptr, struct session* ses);
+extern void split_command(const char *arg);
+extern void unsplit_command(void);
+extern void purist_command(void);
+extern void unpurist_command(void);
+extern void quitmsg(const char *m);
+extern void tinquit(void);
+extern struct session *readmud(struct session* ses);
+#ifdef _WINDOWS
+extern void tinread(SOCKET rsock);
+#else
+void bait();
+extern void cleanscreen(void);
+extern void dirtyscreen(void);
+extern void myquitsig(int no_care);
+extern int tickcounter_in_splitline(int ttt);
+extern int status_in_splitline(const char *arg, struct session* ses);
+extern void initrl(void);
+extern void initsplit(void);
+extern void mainloop(void);
+extern int check_status(const char *buf, struct session* ses);
+void control_r_redraw();
+#endif
+void printline(const char *str, int isaprompt);
+void unhook_session(struct session* ses);
+
+#endif // __RL_PROTO__

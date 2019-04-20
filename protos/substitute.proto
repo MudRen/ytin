@@ -1,0 +1,9 @@
+#ifndef __SUBSTITUTE_PROTO__
+#define __SUBSTITUTE_PROTO__
+/* ../substitute.c */
+extern void parse_sub(const char *arg, struct session* ses);
+extern void unsubstitute_command(const char *arg, struct session* ses);
+extern void do_one_sub(char *line, struct session* ses);
+extern void gag_command(const char *arg, struct session* ses);
+
+#endif // __SUBSTITUTE_PROTO__

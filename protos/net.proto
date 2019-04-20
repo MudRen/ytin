@@ -1,0 +1,83 @@
+#ifndef __NET_PROTO__
+#define __NET_PROTO__
+/* ../net.c */
+extern int readline_echoing_p;
+extern int connect_mud(const char *host, const char *port, struct session* ses);
+extern void write_line_mud1(const char *line, struct session* ses);
+void write_line_mud2(const char *line, struct session* ses);
+extern void write_line_mud(const char *line, struct session* ses);
+extern int read_buffer_mud(char *buffer, struct session* ses);
+
+void do_telnet_sbse(unsigned char* sbse, struct session* ses);
+void do_telnet_protocol(unsigned char dat1, unsigned char dat2, struct session* ses);
+void write_raw_mud(const char *buff, unsigned l, struct session* ses);
+void send_telnet(unsigned char dat1, unsigned char dat2, struct session* ses);
+void send_termtype(struct session* ses);
+void send_ayt(struct session* ses);
+
+/*do we need a seperate file to handle telnet ? */
+#define TEL_EOF	236
+#define SUSP	237
+#define ABORT	238
+
+#define SE	      ((unsigned char)240)
+#define NOP	      ((unsigned char)241)
+#define DM	      ((unsigned char)242)
+#define BREAK	    ((unsigned char)243)
+#define IP	      ((unsigned char)244)
+#define AO	      ((unsigned char)245)
+#define AYT	      ((unsigned char)246)
+#define EC	      ((unsigned char)247)
+#define EL	      ((unsigned char)248)
+#define GOAHEAD	  ((unsigned char)249)
+#define SB	      ((unsigned char)250)
+#define TEL_WILL	((unsigned char)251)
+#define TEL_WONT	((unsigned char)252)
+#define TEL_DO	  ((unsigned char)253)
+#define TEL_DONT	((unsigned char)254)
+#define IAC	      ((unsigned char)255)
+
+#define BINARY     0
+#define ECHO	   1
+#define RECONNECT  2
+#define SGA 	   3
+#define AMSN	   4
+#define STATUS     5
+#define TIMING     6
+#define RCTAN	   7
+#define OLW	   8
+#define OPS	   9
+#define OCRD	   10
+#define OHTS	   11
+#define OHTD	   12
+#define OFFD	   13
+#define OVTS	   14
+#define OVTD	   15
+#define OLFD	   16
+#define XASCII     17
+#define LOGOUT     18
+#define BYTEM	   19
+#define DET	   20
+#define SUPDUP     21
+#define SUPDUPOUT  22
+#define SENDLOC    23
+#define TERMTYPE   24
+#define EOR	   25
+#define TACACSUID  26
+#define OUTPUTMARK 27
+#define TERMLOCNUM 28
+#define REGIME3270 29
+#define X3PAD	   30
+#define NAWS	   31
+#define TERMSPEED  32
+#define TFLOWCNTRL 33
+#define LINEMODE   34
+#define MaxTelOpt  34
+
+
+/* Telnet command codes and names */
+#define TEL_IS     ((unsigned char)0)
+#define TEL_SEND   ((unsigned char)1)
+#define TEL_INFO   ((unsigned char)2)
+
+#endif // __NET_PROTO__

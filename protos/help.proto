@@ -1,0 +1,7 @@
+#ifndef __HELP_PROTO__
+#define __HELP_PROTO__
+/* ../help.c */
+extern FILE *check_file(const char *filestring);
+extern void help_command(const char *arg);
+
+#endif // __HELP_PROTO__

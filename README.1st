@@ -1,0 +1,17 @@
+1. strip CR from the file CR-LF.sh:
+     perl -e 's/\r$//g' -p -i CR-LF.sh
+2. sh CR-LF.sh
+3. sh configure
+4. make
+5. copy tt++ to the directory that your want to install.
+6. put a copy of .tt_help.txt to your user root directory.
+   You can also gzip or compress it to .tt_help.txt.gz or .Z
+   For first time user, u may want to grab a copy of sample
+   .tintinrc file from yTin homepage.
+For system admin: the default directory for putting .tt_help.txt
+is /usr/local/lib/tintin .
+
+For any problems, post to:
+http://server6.ezboard.com/fytinytin.html
+and you shall get prompt follow-ups in most case.
+Feel free to send me e-mail if you prefer: fchen@postmark.net .

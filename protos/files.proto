@@ -1,0 +1,12 @@
+#ifndef __FILES_PROTO__
+#define __FILES_PROTO__
+/* ../files.c */
+extern struct s_list *complete_head;
+extern void read_complete(char* arg);
+extern void free_complete(void);
+extern struct session *read_command(char *filename, struct session* ses);
+extern struct session *write_command(char *filename, struct session* ses);
+extern struct session *writesession_command(char *filename, struct session* ses);
+extern void prepare_for_write(const char *command, const char *left, const char *right, const char *pr, char *result);
+
+#endif // __FILES_PROTO__

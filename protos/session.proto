@@ -1,0 +1,12 @@
+#ifndef __SESSION_PROTO__
+#define __SESSION_PROTO__
+/* ../session.c */
+extern struct session *session_command(const char *arg, struct session* ses);
+extern void show_session(struct session* ses, struct session* active_ses);
+extern struct session *newactive_session(void);
+extern struct session *new_session(const char *name, const char *address, struct session* ses);
+extern struct session *cleanup_session(struct session* ses);
+extern int valid_session(struct session* ses);
+extern void setTitle(char* title);
+
+#endif // __SESSION_PROTO__
